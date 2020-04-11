@@ -1,66 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Basic</title>
-
-  <!-- Added link to the jQuery library -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stores NearBy</title>
+    <link rel="icon" href="/Assets/StoresNearbyIcon.png" type="image/icon type">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="/homepage.css">
 </head>
 <body>
-
-  <!-- Created an empty HTML div. Note that there is no content -->
-  <div id="empty-div"></div>
-
-  <script type="text/javascript">
-
-
-
-var queryUrl = "https://api.kroger.com/v1/products?filter.term=milk";
-
-
-var settings = {
-  "async": true,
-  "crossDomain": true,
-  "url": "https://api.kroger.com/v1/products?filter.term=milk",
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjYxNjcxMDIxNDk1NzIyMywiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjYxODUxMCwiaWF0IjoxNTg2NjE2NzA1LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.XRVhYSTgd1kjV94IT_1gu7WXa1AxTutRx7OY7eVPWTSkzmHXqRubwYtQ6dBQYvhgWWTraMk5o_C6cWgGfssa6emdeLajBhbcWhFSBDWuK46l22DPOf7SiV6Pl4K14WtZY3IZC3l9ylpCPHpAD2AIO8nas2dwmdufbHRPsPhCy956EiW-Qju22uyayXwDUxnNzgUEu50VNSkiYi2HyuJmnqGFUpfA_igKRXGQFS_4Vj6beDZ_UvvJ75ityVth_VAhZQ77rvRNIVca2aDLKPc6w15pxWbTHkbxLbY-S8XbqNX0VGGunyFykKb6SNt9-6crh8FWgnLg9mJExHyWBy-HfA"
-  }
-}
-
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
-
-
-
-var settingsLocation = {
-  "async": true,
-  "crossDomain": true,
-  "url": "https://api.kroger.com/v1/locations?filter.zipCode.near=30096",
-  "method": "GET",
-  "headers": {
-    "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjYxNjcxMDIxNDk1NzIyMywiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjYxODUxMCwiaWF0IjoxNTg2NjE2NzA1LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.XRVhYSTgd1kjV94IT_1gu7WXa1AxTutRx7OY7eVPWTSkzmHXqRubwYtQ6dBQYvhgWWTraMk5o_C6cWgGfssa6emdeLajBhbcWhFSBDWuK46l22DPOf7SiV6Pl4K14WtZY3IZC3l9ylpCPHpAD2AIO8nas2dwmdufbHRPsPhCy956EiW-Qju22uyayXwDUxnNzgUEu50VNSkiYi2HyuJmnqGFUpfA_igKRXGQFS_4Vj6beDZ_UvvJ75ityVth_VAhZQ77rvRNIVca2aDLKPc6w15pxWbTHkbxLbY-S8XbqNX0VGGunyFykKb6SNt9-6crh8FWgnLg9mJExHyWBy-HfA"
-  
-  }
-}
-
-$.ajax(settingsLocation).done(function (responseLocation) {
-  console.log(responseLocation);
-});
-
-
-// $.ajax({
-//     url: queryUrl,
-//     method: "GET"
-//     Accept:application/json
-//     Authorization:"Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjUzMDY1MjMxNDc5OTgwNCwiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjUzMjQ1MiwiaWF0IjoxNTg2NTMwNjQ3LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.w_IHbNQf5fqV-1bfQbBe2T4op-1XAeDwhFXI9D7BWZ0K7koqfudR2xUuYxKiLDwNQ4XCQQhnMzTYHklv8P8dJOLbIuvneepfPEKlUbvv0mG0WprrnGSV5yE-OsAR_XN4anny1wihSyAxfdg_f9XBANuCoXvrKAvzWtrUs4WFSIITRAykyTov8bVX_V_1vWYx0Zg7mzIpyECE7btaxZri0rcv_0rvbHVBRyeKk7RJ9g8pGxGT77wEa-KFSFAC5teRw6Gq1Opm11yFhJ6nw3x3oI6dNHExx35MG3ni_O8Xu63nC-DaMEQ2DQiwb-ZjsQ8leFsehLC2MWJ9eXD_tcBSkg"
-// }).then(function (response) {
-// console.log(response)
-  </script>
-
+    <div class="container light-blue lighten-5">
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#!" class="brand-logo"><i class="material-icons">shopping_cart</i>Stores NearBy</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="sass.html">Community</a></li>
+                    <li><a href="badges.html">About</a></li>
+                    <li><a href="collapsible.html">Feedback</a></li>
+                  </ul>
+            </div>
+        </nav>
+        <main>
+            <form class="row" id="userinputinfo">
+                <div class="input-field col s8" id="productdiv">
+                        <input id="product" type="text" placeholder="Enter a product" required/>
+                </div>
+                <div class="input-field col s3" id="zipcodediv">
+                        <input id="zipcode" placeholder="zip code" type="text" required/>
+                        <!-- TODO - Figure out how to input only numbers in this field without putting type as number -->
+                </div>  
+                <div class="col s1" id="searchdiv">
+                    <button id="search" type="submit">
+                        <i class="small material-icons" id="searchicon">search</i>
+                    </button>
+                </div>
+              </form>
+            <div class="row">
+                <div class="section" id="storename">
+                    <h6>Results:</h6>
+                    <h5><strong>Store Name</strong></h5>
+                </div>  
+                <div class="divider"></div> 
+                <div class = "section" id="productdetails">
+                    <h6>Items List</h6>
+                    <div class="row">
+                        <div class="col s12 m6">
+                          <div class="card card-panel hoverable">
+                            <div class="card-content">
+                              <span class="card-title">Item - 1</span>
+                              <p>Item desctiption</p>
+                            </div>
+                            <div class="card-action">
+                                <a class="waves-effect waves-light btn"><i class="material-icons left">save</i>Wishlist</a>
+                                <a class="waves-effect waves-light btn"><i class="material-icons left">send</i>Shop</a>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col s12 m6">
+                            <div class="card card-panel hoverable">
+                              <div class="card-content">
+                                <span class="card-title">Item - 2</span>
+                                <p>Item desctiption</p>
+                              </div>
+                              <div class="card-action">
+                                  <a class="waves-effect waves-light btn"><i class="material-icons left">save</i>Wishlist</a>
+                                  <a class="waves-effect waves-light btn"><i class="material-icons left">send</i>Shop</a>
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="row">
+                        <ul class="pagination">
+                            <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
+                            <li class="active"><a href="#!">1</a></li>
+                            <li class="waves-effect"><a href="#!">2</a></li>
+                            <li class="waves-effect"><a href="#!">3</a></li>
+                            <li class="waves-effect"><a href="#!">4</a></li>
+                            <li class="waves-effect"><a href="#!">5</a></li>
+                            <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
+                          </ul>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+        </footer>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="./reversegeocoding.js"></script>
+    <script src="./api.js"></script>
 </body>
 </html>
