@@ -14,22 +14,42 @@
 
   <script type="text/javascript">
 
+
+
 var queryUrl = "https://api.kroger.com/v1/products?filter.term=milk";
 
 
 var settings = {
   "async": true,
   "crossDomain": true,
-  "url": "https://api.kroger.com/v1/products",
+  "url": "https://api.kroger.com/v1/products?filter.term=milk",
   "method": "GET",
   "headers": {
     "Accept": "application/json",
-    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjYxNDc1OTc4OTAxNzU5MiwiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjYxNjU1OSwiaWF0IjoxNTg2NjE0NzU0LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.HTbfSem7ZWNd7NgUwDCZem8m-6nPrD9Td8hY2yVR6ZPSctjYUQXHa3GBjuEcsPHUoNn7n_VIays4TnuWS6WDDbfknRSaS9aOOo6Sc3-h38dCeAtUL7CsyFLdYacKvO4ats82bbooZ27Pw34pehOvhVe8Ab5hXoKIAGgWLZWNvYa9tQXZ6f_BknZmFkBlV-rSGo6woiZRYkj5qZXaEjG0vVwnVPINBYM5Mk_RAyGc35qgX3xwAKca6BRYr8yPnIpqLpPYTkh5ncJIi8lYLyXKl2dBZXqL6n8dOJVq2XhruypKVCTnfTNPUtaL41icea88YsdIrhB3vNunMTdcotGBBg"
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjYxNjcxMDIxNDk1NzIyMywiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjYxODUxMCwiaWF0IjoxNTg2NjE2NzA1LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.XRVhYSTgd1kjV94IT_1gu7WXa1AxTutRx7OY7eVPWTSkzmHXqRubwYtQ6dBQYvhgWWTraMk5o_C6cWgGfssa6emdeLajBhbcWhFSBDWuK46l22DPOf7SiV6Pl4K14WtZY3IZC3l9ylpCPHpAD2AIO8nas2dwmdufbHRPsPhCy956EiW-Qju22uyayXwDUxnNzgUEu50VNSkiYi2HyuJmnqGFUpfA_igKRXGQFS_4Vj6beDZ_UvvJ75ityVth_VAhZQ77rvRNIVca2aDLKPc6w15pxWbTHkbxLbY-S8XbqNX0VGGunyFykKb6SNt9-6crh8FWgnLg9mJExHyWBy-HfA"
   }
 }
 
 $.ajax(settings).done(function (response) {
   console.log(response);
+});
+
+
+
+var settingsLocation = {
+  "async": true,
+  "crossDomain": true,
+  "url": "https://api.kroger.com/v1/locations?filter.zipCode.near=30096",
+  "method": "GET",
+  "headers": {
+    "Accept": "application/json",
+    "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsImprdSI6Imh0dHBzOi8vYXBpLmtyb2dlci5jb20vdjEvLndlbGwta25vd24vandrcy5qc29uIiwia2lkIjoiWjRGZDNtc2tJSDg4aXJ0N0xCNWM2Zz09IiwidHlwIjoiSldUIn0.eyJzY29wZSI6InByb2R1Y3QuY29tcGFjdCIsImF1dGhBdCI6MTU4NjYxNjcxMDIxNDk1NzIyMywiYXVkIjoiY29vbHN0b3JlbmVhcmJ5LTM5YTJhZGU1N2NjMmQyMjA4OGI4NjZjYzk4MjcwZGFmNTc0NzQxNzg5MDgwMDAwMjAzNSIsImV4cCI6MTU4NjYxODUxMCwiaWF0IjoxNTg2NjE2NzA1LCJpc3MiOiJhcGkua3JvZ2VyLmNvbSIsInN1YiI6IjBiNDExN2M2LWQxNmItNDg5Yi04MDY3LTBlNjY2NTYzNWNjNiJ9.XRVhYSTgd1kjV94IT_1gu7WXa1AxTutRx7OY7eVPWTSkzmHXqRubwYtQ6dBQYvhgWWTraMk5o_C6cWgGfssa6emdeLajBhbcWhFSBDWuK46l22DPOf7SiV6Pl4K14WtZY3IZC3l9ylpCPHpAD2AIO8nas2dwmdufbHRPsPhCy956EiW-Qju22uyayXwDUxnNzgUEu50VNSkiYi2HyuJmnqGFUpfA_igKRXGQFS_4Vj6beDZ_UvvJ75ityVth_VAhZQ77rvRNIVca2aDLKPc6w15pxWbTHkbxLbY-S8XbqNX0VGGunyFykKb6SNt9-6crh8FWgnLg9mJExHyWBy-HfA"
+  
+  }
+}
+
+$.ajax(settingsLocation).done(function (responseLocation) {
+  console.log(responseLocation);
 });
 
 
