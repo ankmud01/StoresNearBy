@@ -18,8 +18,8 @@ body {
     position: absolute;
     z-index: -2;   
   }
-
-  ::placeholder{
-      color:#263238; 
-      font-family: 'Girassol', cursive;
-  }
+a{
+    font-weight: bolder;
+    font-size: large;
+    color: #ff5722;
+}
