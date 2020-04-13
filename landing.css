@@ -1,5 +1,7 @@
-body {
-    display: block;
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
     position: relative;
     color: #263238;
     font-family: 'Girassol', cursive;
@@ -18,8 +20,14 @@ body {
     position: absolute;
     z-index: -2;   
   }
-a{
+  a{
     font-weight: bolder;
     font-size: large;
     color: #ff5722;
-}
+  }
+  main {
+  flex: 1 0 auto;
+  }
+  .card{
+    margin-top: 10%;
+  }
