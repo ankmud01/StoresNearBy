@@ -2,7 +2,8 @@
 document.getElementById("search").addEventListener("click", dataValid)
 
 
-function dataValid(){
+function dataValid(event) {
+    event.preventDefault();
     zipCodeValidate();
     productValidate();
 }
@@ -11,7 +12,7 @@ function dataValid(){
 function zipCodeValidate() {
     let zipcodeInput = document.getElementById("zipcode").value;
     let zipcodeVal = parseInt(zipcodeInput);
-    if (Number.isInteger(zipcodeVal) == false) {
+    if (isNaN(zipcodeVal)) {
         alert('Please enter a number');
     }
 }
@@ -24,12 +25,12 @@ function productValidate() {
     let specialCharFound = false;
     for (let i = 0; i < specialCharacter.length; i++) {
         if (productInputVal.indexOf(specialCharacter[i]) > -1) {
-            specialCharFound = true; 
+            specialCharFound = true;
         }
     }
-    if (specialCharFound){
+    if (specialCharFound) {
         alert('find special character');
-    }  
+    }
 }
 
 
