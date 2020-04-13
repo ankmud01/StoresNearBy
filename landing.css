@@ -1,4 +1,4 @@
-body {
+  body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
@@ -7,7 +7,7 @@ body {
     font-family: 'Girassol', cursive;
   }
   
-body::after {
+  body::after {
     content: "";
     background: url(Assets/images/clipdealer_A107414116_preview.jpg);
     background-size: cover;
@@ -20,15 +20,14 @@ body::after {
     position: absolute;
     z-index: -2;   
   }
-
-::placeholder{
-      color:#263238; 
-      font-family: 'Girassol', cursive;
+  a{
+    font-weight: bolder;
+    font-size: large;
+    color: #ff5722;
   }
-main {
+  main {
   flex: 1 0 auto;
   }
-
-#searchdiv{
-  margin-top: 2%;
-}
+  .card{
+    margin-top: 10%;
+  }
