@@ -70,7 +70,7 @@ function fetchProducts() {
           let cardcontent = $("<div>").att("id", "cardcontent-" + [i])
           let img1 = $("<img>").attr("src", response.data[0].images.find(isFrontImg).sizes.find(isSmallImg).url);
           let newImgTag = $("<img>").attr("src", img1);
-          let newCardDiv = $("<div>">.addClass("card" "card-panel" "hoverable");
+          let newCardDiv = $("<div>">.addClass("card card-panel hoverable");
 
           
           // let newContent = $("<div>").addClass("card-content");
