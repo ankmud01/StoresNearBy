@@ -32,3 +32,20 @@ main {
 #searchdiv{
   margin-top: 2%;
 }
+
+img{
+  border-radius: 8px;
+  width: auto;
+  height:auto;
+  max-height: 300px;
+
+}
+
+
+.row{
+  display:flex;
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+
