@@ -4,8 +4,14 @@ document.getElementById("search").addEventListener("click", dataValid)
 
 function dataValid(event) {
     event.preventDefault();
-    zipCodeValidate();
-    productValidate();
+    let validZipCode = zipCodeValidate();
+    let validProduct = productValidate();
+    //if valid, then call the api
+    //if not valid, do not call api
+    if (validZipCode == 'valid' && validProduct == 'valid') {
+        let userInput = document.getElementById("product").value;
+        fetchProducts(userInput);
+    }
 }
 
 
@@ -14,6 +20,9 @@ function zipCodeValidate() {
     let zipcodeVal = parseInt(zipcodeInput);
     if (isNaN(zipcodeVal)) {
         alert('Please enter a number');
+        return 'not valid';
+    } else {
+        return 'valid';
     }
 }
 
@@ -30,6 +39,9 @@ function productValidate() {
     }
     if (specialCharFound) {
         alert('find special character');
+        return 'not valid';
+    } else {
+        return 'valid';
     }
 }
 
