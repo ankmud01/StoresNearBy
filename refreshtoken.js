@@ -8,8 +8,6 @@
 var log = console.log;
 var retryCount = 0;
 var tokenUrl = "https://api.kroger.com/v1/connect/oauth2/token";
-var productUrl =
-  "https://api.kroger.com/v1/products?filter.term=sanitizer";
 
 var token = localStorage.getItem('token') || "";
 async function refreshToken() {
@@ -42,8 +40,10 @@ async function retryStrategy(error) {
     await fetchProducts(); // 2
   }
 }
-function fetchProducts() {
+function fetchProducts(userInput) {
   // Get the products from Kroger API
+
+  let productUrl = "https://api.kroger.com/v1/products?filter.term=" + userInput;
   $.ajax({
     url: productUrl,
     method: "GET",
@@ -56,46 +56,28 @@ function fetchProducts() {
       retryCount = 0;
       log("Data: ", response);
 
-
-      console.log(response.data[0].images.find(isFrontImg).sizes.find(isSmallImg).url);
-      console.log(response.data[0].description);
-
-
-      
+      generateProductUrl(response);
+ 
 
       function createImgeEl() {
 
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < response.data.length; i++) {
 
-          let cardcontent = $("<div>").att("id", "cardcontent-" + [i])
-          let img1 = $("<img>").attr("src", response.data[0].images.find(isFrontImg).sizes.find(isSmallImg).url);
-          let newImgTag = $("<img>").attr("src", img1);
-          let newCardDiv = $("<div>">.addClass("card card-panel hoverable");
+          let image = response.data[i].images.find(isFrontImg).sizes.find(isSmallImg).url;
+          let newImg = $("<img>").attr("src", image);
+          if (i < 4) {//need to update when showing products above index3
+            createCardPanelContent(newImg, i);
 
-          
-          // let newContent = $("<div>").addClass("card-content");
-
-          $(cardcontent).append(newImgTag)
-
-          // let image = response.data[i].images.find(isFrontImg).sizes.find(isSmallImg).url;
-          // let newImg = $("<img>").attr("src", image);
-          // createCardPanel(newImg);
-          // let newContent = $("<div>").addClass("card-content");
-          // $(newContent).append(newImg)
-
-          $(".card-title").append(newContent);
+          }
         }
 
       }
+      
       createImgeEl();
-
-
-
 
     })
     .catch((error) => retryStrategy(error));
 }
-fetchProducts();
 
 
 function isFrontImg(img) {
@@ -104,3 +86,54 @@ function isFrontImg(img) {
 function isSmallImg(img) {
   return img.size === "small";
 }
+
+function createCardPanelContent(newImg, cardID) {
+ 
+  let cardContentElement = $("#card" + (cardID + 1));
+ $(cardContentElement).empty();
+  let itemNameElement = $("<span>").addClass("card-title");
+  $(itemNameElement).text("Item - 1");
+
+  let itemDescriptionElement = $("<p>");
+  $(itemDescriptionElement).text("Item Description");
+
+  $(cardContentElement).append(itemNameElement);
+  $(cardContentElement).append(itemDescriptionElement);
+
+  $(cardContentElement).append(newImg);
+}
+
+
+
+
+
+function generateProductUrl(response) {
+
+  for (let i = 0; i < 4; i++) {
+    const productName = response.data[i].description;
+    // console.log(response.data[0].description);
+    // console.log(response.data[0].productId);
+    const productId = response.data[i].productId;
+    const result = productName
+      .toLowerCase()
+      .replace(/[^0-9,^a-z,^ ]/g, "")
+      .replace(/ +/g, '-');
+    const url = `https://www.kroger.com/p/${result}/${productId}`;
+
+    redirectProductUrl(url, i);
+
+  }
+
+}
+
+
+
+
+
+
+function redirectProductUrl(url, productlinkID) {
+  const productAtag = $("#productLink" + (productlinkID + 1))
+    $(productAtag).attr("href", url)
+
+}
+
