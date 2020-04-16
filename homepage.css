@@ -32,3 +32,8 @@ main {
 #searchdiv{
   margin-top: 2%;
 }
+
+.validation-error {
+    color: red;
+    margin-top: 1px;
+}

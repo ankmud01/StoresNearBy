@@ -1,36 +1,58 @@
 
-document.getElementById("search").addEventListener("click", dataValid)
+//document.getElementById("search").addEventListener("click", dataValid)
 
 
-function dataValid(event) {
-    event.preventDefault();
-    zipCodeValidate();
-    productValidate();
+function isDataInvalid(userInputProduct, userInputZipCode) {
+    return zipCodeValidate(userInputZipCode) || productValidate(userInputProduct);
 }
 
 
-function zipCodeValidate() {
-    let zipcodeInput = document.getElementById("zipcode").value;
-    let zipcodeVal = parseInt(zipcodeInput);
+function zipCodeValidate(userInputZipCode) {
+    let retVal = false;
+    //let zipcodeInput = document.getElementById("zipcode").value;
+    let zipcodeVal = parseInt(userInputZipCode);
     if (isNaN(zipcodeVal)) {
-        alert('Please enter a number');
+        let zipCodeError = 'Please enter a number';
+        $("#displayErrorForNonNumerics").text(zipCodeError);
+        $("#zipcode").empty();
+        $("#displayErrorForNonNumerics").fadeOut(2000);
+        $("#displayErrorForNonNumerics").css("display", "inline");
+        retVal = true;
     }
+    else {
+        $("#displayErrorForNonNumerics").css("display", "none");
+        retVal = false;
+    }
+
+    return retVal;
 }
 
 
-function productValidate() {
-    let productInputVal = document.getElementById("product").value;
+function productValidate(userInputProduct) {
+    let retVal = false;
+    //let productInputVal = document.getElementById("product").value;
     // let productInput = productInputVal.split("");
     let specialCharacter = ["`", "!", "@", "#", "$", "%", "^", "&", "-", "_", "=", " / ", "; ", ", ", " ? ", "; "]
     let specialCharFound = false;
     for (let i = 0; i < specialCharacter.length; i++) {
-        if (productInputVal.indexOf(specialCharacter[i]) > -1) {
+        if (userInputProduct.indexOf(specialCharacter[i]) > -1) {
             specialCharFound = true;
         }
     }
     if (specialCharFound) {
-        alert('find special character');
+        let spclCharError = 'find special character';
+        $("#displayErrorsForSpclChar").text(spclCharError);
+        $("#product").empty();
+        $("#displayErrorsForSpclChar").fadeOut(2000);
+        $("#displayErrorsForSpclChar").css("display", "inline");
+        retVal = true;
     }
+    else {
+        $("#displayErrorsForSpclChar").css("display", "none");
+        retVal = false;
+    }
+
+    return retVal;
 }
 
 
