@@ -9,7 +9,7 @@ body {
   
 body::after {
     content: "";
-    background: url(Assets/images/clipdealer_A107414116_preview.jpg);
+    background: url(Assets/images/recipes_pic.jpg);
     background-size: cover;
     background-repeat: no-repeat;
     opacity: 0.5;
@@ -20,17 +20,26 @@ body::after {
     position: absolute;
     z-index: -2;   
   }
+main {
+    flex: 1 0 auto;
+}
 
 ::placeholder{
-      color:#263238; 
-      font-family: 'Girassol', cursive;
-  }
-main {
-  flex: 1 0 auto;
-  }
+    color:#263238; 
+    font-family: 'Girassol', cursive;
+}
 
 #searchdiv{
-  margin-top: 2%;
+    margin-top: 2%;
+}
+.btn-small{
+  display:inline-block;
+}
+label{
+  font-weight: bold;
+  color:#263238; 
+  font-family: 'Girassol', cursive;
+  font-size: small;
 }
 .aligned{
   margin-bottom: 20px;
