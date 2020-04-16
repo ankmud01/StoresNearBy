@@ -9,7 +9,7 @@ $(document).ready(function () {
     // On submit of user search query
     $("#search").on('click', function (event) {
         event.preventDefault();
-        
+
         let userInputProduct = $("#product").val().trim(),
             userInputZipCode = $("#zipcode").val().trim();
         const limitMiles = 15;
@@ -75,7 +75,7 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 retryCount = 0;
-                log("Data: ", response);
+                // log("Data: ", response);
                 appendProductsToDisplay(response);
             })
             .catch((error) => retryStrategyForProductSearchApi(error, userInputProduct, locationId));
@@ -86,16 +86,21 @@ $(document).ready(function () {
         //const recordsPerPage = 4;
         //let totalRecords = response.data.length;
         //let numberOfPages = parseInt(totalRecords / recordsPerPage);
-        
+
         for (var i = 0; i < response.data.length; i++) {
             let cols12m6 = $("<div class='col s12 m6'>");
             let cardPanel = $("<div class='card card-panel hoverable blue lighten-5'>");
             let cardContent = $("<div class='card-content'>");
-            let cardAction = $("<div class='card-action'>")
-                .append("<a class='waves-effect btn blue lighten-1 left'><i class='material-icons left'>save</i>Wishlist</a>");
+            let wishlistBtn = $("<a class='waves-effect btn blue lighten-1 left'><i class='material-icons left'>save</i>Wishlist</a>");
+            let cardAction = $("<div class='card-action'>").append(wishlistBtn);
+            $(wishlistBtn).attr("id", "data" + i);
+
+            // generateProductInfo(response, i,wishlistBtn);
+
             let shopBtn = $("<a class='waves-effect btn blue lighten-1 right'><i class='material-icons left'>send</i>Shop</a>");
-            shopBtn.attr("id", "productLink-" + i);
-            generateProductUrl(response, i);
+            generateProductUrl(response, i, shopBtn);
+
+
             cardAction.append(shopBtn);
             let spanCardTitle = $("<span class='card-title'>");
             let pTag = $("<p>");
@@ -119,10 +124,39 @@ $(document).ready(function () {
             row.append(cols12m6);
 
             $("#productdetails").append(row);
+
+            $(wishlistBtn).on("click", function generateProductInfo() {
+                console.log(response.data)
+                const productName = itemDescription;
+                let wishList = [];
+                if (localStorage.getItem("wishList") === null) {
+                    wishList.push(productName);
+                    localStorage.setItem("wishList", JSON.stringify(wishList));
+                }
+                else {
+                    wishList = JSON.parse(localStorage.getItem("wishList"));
+                 
+                    wishList.push(productName);
+                    localStorage.setItem("wishList", JSON.stringify(wishList));
+                }
+              
+
+                console.log(productName);
+
+            });
+
         }
     }
 
-    function generateProductUrl(response, productlinkID) {
+
+
+
+
+
+
+
+
+    function generateProductUrl(response, productlinkID, shopBtn) {
         const productName = response.data[productlinkID].description;
 
         const productId = response.data[productlinkID].productId;
@@ -132,18 +166,39 @@ $(document).ready(function () {
             .replace(/ +/g, '-');
         const url = `https://www.kroger.com/p/${result}/${productId}`;
 
-        redirectProductUrl(url, productlinkID);
+        redirectProductUrl(url, shopBtn);
     }
 
-    function redirectProductUrl(url, productlinkID) {
-        const productAtag = $("#productLink-" + productlinkID);
-        $(productAtag).attr("href", url)
+    function redirectProductUrl(url, shopBtn) {
+        $(shopBtn).attr("href", url)
     }
 
     function createImgeEl(productId) {
         let imageurl = "https://www.kroger.com/product/images/small/front/" + productId;
         return $("<img>").attr("src", imageurl);
     }
+
+
+    function addItemToWishList(itemDescription) {
+        let blankData = [
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+        localStorage.setItem("wishlist", JSON.stringify({ data: blankData }));
+    }
+
 
     // Fetch Location IDs API call
     function fetchLocationIds(zipCode, limitMiles, userInputProduct) {
@@ -165,7 +220,7 @@ $(document).ready(function () {
 
                 for (let index = 0; index < response.data.length - 1; index++) {
                     locationIds.push(response.data[index].locationId);
-                    console.log(locationIds[index]);
+                    // console.log(locationIds[index]);
                 }
 
                 // After getting Location IDs call Product API for each location ID and our search item
@@ -181,4 +236,13 @@ $(document).ready(function () {
                 locationIds = retryStrategyForLocationIdsApi(error, zipCode, limitMiles)
             });
     }
+
+
+
 });
+
+
+
+
+
+
