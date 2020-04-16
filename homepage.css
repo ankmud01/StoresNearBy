@@ -33,6 +33,12 @@ main {
   margin-top: 2%;
 }
 
+<<<<<<< HEAD
+.validation-error {
+    color: red;
+    margin-top: 1px;
+}
+=======
 img{
   border-radius: 8px;
   width: auto;
@@ -45,3 +51,4 @@ img{
 
 
 
+>>>>>>> acec7c2d892ff53ba0458beabc9c85b612299bec
