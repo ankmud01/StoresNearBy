@@ -35,3 +35,15 @@ main {
 .aligned{
   margin-bottom: 20px;
 }
+.validation-error {
+    color: red;
+    margin-top: 1px;
+}
+img{
+  border-radius: 8px;
+  width: auto;
+  height:auto;
+  max-height: 300px;
+
+}
+

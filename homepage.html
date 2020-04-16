@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -27,9 +27,11 @@
       <form class="row" id="userinputinfo">
         <div class="input-field col s8" id="productdiv">
           <input id="product" type="text" placeholder="Enter a product" required />
+          <p id="displayErrorsForSpclChar" class="validation-error"></p>
         </div>
         <div class="input-field col s3" id="zipcodediv">
           <input id="zipcode" placeholder="zip code" type="text" required />
+          <p id="displayErrorForNonNumerics" class="validation-error"></p> 
           <!-- TODO - Figure out how to input only numbers in this field without putting type as number -->
         </div>
         <div class="col s1" id="searchdiv">
@@ -38,64 +40,17 @@
           </button>
         </div>
       </form>
+
       <div class="row">
         <div class="section" id="storename">
           <h6>Results:</h6>
-          <h5><strong>Store Name</strong></h5>
+          <h5 id="store-name"></h5>
         </div>
         <div class="divider"></div>
         <div class="section" id="productdetails">
+            <!--Clear product list with new search-->
           <h6>Items List</h6>
-          <div class="row">
-            <div class="col s12 m6" id="leftcolumn">
-              <div class="card card-panel hoverable blue lighten-5">
-                <div class="card-content">
-                  <span class="card-title">Item - 1</span>
-                  <p>Item desctiption</p>
-                </div>
-                <div class="card-action">
-                  <a class="waves-effect btn blue lighten-1 left"><i class="material-icons left">save</i>Wishlist</a>
-                  <a class="waves-effect btn blue lighten-1 right"><i class="material-icons left">send</i>Shop</a>
-                </div>
-              </div>
-            </div>
-            <div class="col s12 m6">
-              <div class="card card-panel hoverable blue lighten-5">
-                <div class="card-content">
-                  <span class="card-title">Item - 2</span>
-                  <p>Item desctiption</p>
-                </div>
-                <div class="card-action">
-                  <a class="waves-effect btn blue lighten-1 left"><i class="material-icons left">save</i>Wishlist</a>
-                  <a class="waves-effect btn blue lighten-1 right"><i class="material-icons left">send</i>Shop</a>
-                </div>
-              </div>
-            </div>
-            <div class="col s12 m6">
-              <div class="card card-panel hoverable blue lighten-5">
-                <div class="card-content">
-                  <span class="card-title">Item - 3</span>
-                  <p>Item desctiption</p>
-                </div>
-                <div class="card-action">
-                  <a class="waves-effect btn blue lighten-1 left"><i class="material-icons left">save</i>Wishlist</a>
-                  <a class="waves-effect btn blue lighten-1 right"><i class="material-icons left">send</i>Shop</a>
-                </div>
-              </div>
-            </div>
-            <div class="col s12 m6">
-              <div class="card card-panel hoverable blue lighten-5">
-                <div class="card-content">
-                  <span class="card-title">Item - 4</span>
-                  <p>Item desctiption</p>
-                </div>
-                <div class="card-action">
-                  <a class="waves-effect btn blue lighten-1 left"><i class="material-icons left">save</i>Wishlist</a>
-                  <a class="waves-effect btn blue lighten-1 right"><i class="material-icons left">send</i>Shop</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <div class="row">
             <ul class="pagination">
               <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
@@ -116,6 +71,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="./reversegeocoding.js"></script>
     <script src="./datavalidate.js"></script>
-    <script src="./refreshtoken.js"></script>
+    <script src="./storesnearby.js"></script>
 </body>
 </html>
