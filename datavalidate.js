@@ -1,7 +1,3 @@
-
-//document.getElementById("search").addEventListener("click", dataValid)
-
-
 function isDataInvalid(userInputProduct, userInputZipCode) {
     return zipCodeValidate(userInputZipCode) || productValidate(userInputProduct);
 }
@@ -9,7 +5,6 @@ function isDataInvalid(userInputProduct, userInputZipCode) {
 
 function zipCodeValidate(userInputZipCode) {
     let retVal = false;
-    //let zipcodeInput = document.getElementById("zipcode").value;
     let zipcodeVal = parseInt(userInputZipCode);
     if (isNaN(zipcodeVal)) {
         let zipCodeError = 'Please enter a number';
@@ -31,7 +26,6 @@ function zipCodeValidate(userInputZipCode) {
 function productValidate(userInputProduct) {
     let retVal = false;
     //let productInputVal = document.getElementById("product").value;
-    // let productInput = productInputVal.split("");
     let specialCharacter = ["`", "!", "@", "#", "$", "%", "^", "&", "-", "_", "=", " / ", "; ", ", ", " ? ", "; "]
     let specialCharFound = false;
     for (let i = 0; i < specialCharacter.length; i++) {
