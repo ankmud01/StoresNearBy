@@ -5,11 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Stores NearBy</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
   <link rel="icon" href="Assets/images/StoresNearbyIcon.png" type="image/icon type">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link rel="stylesheet" href="recipeui.css">
 </head>
+
 <body>
   <nav>
     <div class="nav-wrapper">
@@ -24,71 +28,65 @@
   </nav>
   <main class="container">
     <form class="row" id="userinputinfo">
-        <h4>What are you craving for...</h4>
-        <div class="input-field col s3" id="foodsearchdiv">
-          <input id="foodsearch" type="text" placeholder="Search by food name..." disabled!='disabled' required />
-        </div>
-        <div class="col s4" id="cuisinesearch">
-          <label>Cuisines</label>
-          <select class="browser-default" id="cuisineoption" disabled!='disabled'>
-            <option value="" disabled selected>Select your cuisine</option>
-            <option value="African">African</option>
-            <option value="American">American</option>
-            <option value="Cajun">Cajun</option>
-            <option value="Chinese">Chinese</option>
-            <option value="French">French</option>
-            <option value="German">German</option>
-            <option value="Greek">Greek</option>
-            <option value="Indian">Indian</option>
-            <option value="Italian">Italian</option>
-            <option value="Japanese">Japanese</option>
-            <option value="Korean">Korean</option>
-            <option value="Mediterranean">Mediterranean</option>
-            <option value="Mexican">Mexican</option>
-            <option value="Middle Eastern">Middle Eastern</option>
-            <option value="Thai">Thai</option>
-            <option value="Vietnamese">Vietnamese</option>
-          </select>
-        </div>
-        <div class="col s4" id="dietsearch">
-          <label>Diet</label>
-          <select class="browser-default" id="dietoption" disabled!='disabled'>
-            <option value="" disabled selected>Select your Diet</option>
-            <option value="Gluten Free">Gluten Free</option>
-            <option value="Ketogenic">Ketogenic</option>
-            <option value="Vegetarian">Vegetarian</option>
-            <option value="Vegan">Vegan</option>
-            <option value="Paleo">Paleo</option>
-          </select>
-        </div>
-        <div class="col s1" id="searchdiv">
-          <button id="search" type="submit" class='enableOnInput' disabled='disabled'>
-            <i class="small material-icons" id="searchicon">search</i>
-          </button>
-        </div>
+      <h4>What are you craving for...</h4>
+      <div class="input-field col s3" id="foodsearchdiv">
+        <input id="foodsearch" type="text" placeholder="Search by food name..." disabled!='disabled' required />
+      </div>
+      <div class="col s4" id="cuisinesearch">
+        <label>Cuisines</label>
+        <select class="browser-default" id="cuisineoption" disabled!='disabled'>
+          <option value="" disabled selected>Select your cuisine</option>
+          <option value="African">African</option>
+          <option value="American">American</option>
+          <option value="Cajun">Cajun</option>
+          <option value="Chinese">Chinese</option>
+          <option value="French">French</option>
+          <option value="German">German</option>
+          <option value="Greek">Greek</option>
+          <option value="Indian">Indian</option>
+          <option value="Italian">Italian</option>
+          <option value="Japanese">Japanese</option>
+          <option value="Korean">Korean</option>
+          <option value="Mediterranean">Mediterranean</option>
+          <option value="Mexican">Mexican</option>
+          <option value="Middle Eastern">Middle Eastern</option>
+          <option value="Thai">Thai</option>
+          <option value="Vietnamese">Vietnamese</option>
+        </select>
+      </div>
+      <div class="col s4" id="dietsearch">
+        <label>Diet</label>
+        <select class="browser-default" id="dietoption" disabled!='disabled'>
+          <option value="" disabled selected>Select your Diet</option>
+          <option value="Gluten Free">Gluten Free</option>
+          <option value="Ketogenic">Ketogenic</option>
+          <option value="Vegetarian">Vegetarian</option>
+          <option value="Vegan">Vegan</option>
+          <option value="Paleo">Paleo</option>
+        </select>
+      </div>
+      <div class="col s1" id="searchdiv">
+        <button id="search" type="submit" class='enableOnInput' disabled='disabled'>
+          <i class="small material-icons" id="searchicon">search</i>
+        </button>
+      </div>
     </form>
     <div class="divider"></div>
     <div>
       <div class="divider"></div>
       <h6 id="foodsearchedfor">Results:</h6>
-      <div class="row" id="newrow">
-        <div id="searchresult"></div>
+      <div class="row">
+      <div id="searchresult"></div>
+      <!-- <div id="stepstocook"></div> -->
       </div>
-  <!-- <ul class="pagination">
-    <li class="disabled"><a href="#!"><i class="material-icons">chevron_left</i></a></li>
-    <li class="active"><a href="#!">1</a></li>
-    <li class="waves-effect"><a href="#!">2</a></li>
-    <li class="waves-effect"><a href="#!">3</a></li>
-    <li class="waves-effect"><a href="#!">4</a></li>
-    <li class="waves-effect"><a href="#!">5</a></li>
-    <li class="waves-effect"><a href="#!"><i class="material-icons">chevron_right</i></a></li>
-  </ul> -->
     </div>
   </main>
   <footer class="page-footer">
-   <h6 class="center aligned">© 2020 CAM Team Production</h6>
+    <h6 class="center aligned">© 2020 CAM Team Production</h6>
   </footer>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>    
   <script src="./recipeui.js"></script>
 </body>
+
 </html>
