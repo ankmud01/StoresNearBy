@@ -96,21 +96,55 @@ $(document).ready(function () {
         event.preventDefault();
         var selectedid = $(this).attr("id")     //This get the value inside the id attribute
         console.log(selectedid);
-        $(".modal-content").text('');
+        //clearing the content of modal
+        $(".modal-content").text('')
+
+        //adding ingredients 
+        var ingredientstitle = $("<p>").attr("class", "ingredientsinfo").text('Ingredients Required - ');
+        $(".modal-content").append(ingredientstitle);
+        
+
+        var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
+        $.ajax({
+            url: ingredientsURL,
+            method: "GET",
+            success: (function (ingredientsResponse) {
+                console.log(ingredientsResponse);
+                for (var i = 0; i < ingredientsResponse.ingredients.length; i++) {
+                    var ingredientsreq = $("<li>").text(ingredientsResponse.ingredients[i].name + " - Quantity: " + ingredientsResponse.ingredients[i].amount.us.value + " " + ingredientsResponse.ingredients[i].amount.us.unit);
+                    
+                    //Apending food steps into the modal
+                    $(".ingredientsinfo").append(ingredientsreq);
+                }                                                                                                                                                                                                                                                                                                                                 
+            }),
+            error: (function (err) {
+                console.log("ERROR - " + err);
+            })
+        });
+        
+
+        //adding steps to cook on the modal
+        var foodtitle = $("<h4>")
+        foodtitle.text('Steps to Make - ');
+        foodtitle.css({
+            "font-weight": "Bolder",
+            "font-size": "Large",
+            "text-decoration": "Underline"
+        });
+        $(".modal-content").append(foodtitle);
 
         //API call to get the recipes,ingredients and nutrition 
         var instructionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/analyzedInstructions?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
-        var nutritionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
-        var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
+        // var nutritionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
+        // var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
         $.ajax({
             url: instructionURL,
             method: "GET",
             success: (function (instructionResponse) {
                 console.log(instructionResponse);
                 for (var i = 0; i < instructionResponse[0].steps.length; i++) {
-                    var foodSteps = $("<li>").text("Step " + instructionResponse[0].steps[i].number + " - " + instructionResponse[0].steps[i].step);
-                    console.log(foodSteps);
-                    //Apending food steps into the modal
+                    var foodSteps = $("<li>").text(instructionResponse[0].steps[i].step);
+                    //"Step " + instructionResponse[0].steps[i].number + " - " +
                     $(".modal-content").append(foodSteps);
                 }
             }),
@@ -155,15 +189,7 @@ $(document).ready(function () {
                 class: "modal"
             })
             var modalcontent = $("<div>").attr("class", "modal-content");
-            var foodcontent = $("<p>")
-            foodcontent.text("How to make - " + list[i].title)
-            foodcontent.css({
-                "font-weight": "Bolder",
-                "font-size": "Large",
-                "text-decoration": "Underline"
-            });
-            modalcontent.append(foodcontent);
-
+            
             foodnamediv.append(foodname);
             morefood.append(moreicon);
             imagediv.append(morefood);
