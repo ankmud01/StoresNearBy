@@ -85,11 +85,11 @@ $(document).ready(function () {
         event.preventDefault();
         var selectedid = $(this).attr("id")     //This get the value inside the id attribute
         console.log(selectedid);
-        // $(".modal-content").text('');
+        $(".modal-content").text('');
 
         var instructionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/analyzedInstructions?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
-        //  nutritionURL =  "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
-        // ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
+         nutritionURL =  "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
+        ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
         $.ajax({
             url: instructionURL,
             method: "GET",
@@ -106,6 +106,7 @@ $(document).ready(function () {
                 console.log("ERROR - " + err);
             })
         });
+
     });
 
     function appendFood(list) {
@@ -134,6 +135,7 @@ $(document).ready(function () {
             var foodnamediv = $("<div>").attr("class", "card-content")
             var foodname = $("<span>").attr("class", "card-title")
             foodname.text(list[i].title);
+            foodname.css("font-size", "20px")
 
             var modaldiv = $("<div>").attr({
                 id: "m-" + list[i].id,
@@ -144,7 +146,8 @@ $(document).ready(function () {
             foodcontent.text("How to make - " + list[i].title)
             foodcontent.css({
                 "font-weight": "Bolder",
-                "font-size": "Medium"
+                "font-size": "Large",
+                "text-decoration": "Underline"
             });
             modalcontent.append(foodcontent);
 
