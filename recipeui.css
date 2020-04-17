@@ -1,39 +1,65 @@
+/* styling the modal */
+.modal{
+  background: url(Assets/images/modalbck3.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 3;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+}
+.modal-content,
+.modal-nutrition,
+.modal-ingredients{
+  font-weight: bolder;
+  color:black;
+  font-family: 'Girassol', cursive;
+  font-size: medium;
+}
+.foodstepli{
+  text-align: left;
+}
+
+/* styling the navbar  */
 .brand-logo{
   margin-left: 10px;
 }
-body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-    position: relative;
-    color: #263238;
-    font-family: 'Girassol', cursive;
-  }
-  
-body::after {
-    content: "";
-    background: url(Assets/images/recipes_pic.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;
-    opacity: 0.5;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    position: absolute;
-    z-index: -2;   
-  }
-main {
-    flex: 1 0 auto;
+
+/* styling the body */
+body{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  position: relative;
+  color: #263238;
+  font-family: 'Girassol', cursive;
+}
+body::after{
+  content: "";
+  background: url(Assets/images/recipes_pic.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -2;   
+}
+main{
+  flex: 1 0 auto;
 }
 
+/* styling the search area */
 ::placeholder{
-    color:#263238; 
-    font-family: 'Girassol', cursive;
+  color:#263238; 
+  font-family: 'Girassol', cursive;
 }
-
 #searchdiv{
-    margin-top: 2%;
+  margin-top: 2%;
 }
 .btn-small{
   display:inline-block;
@@ -44,6 +70,8 @@ label{
   font-family: 'Girassol', cursive;
   font-size: small;
 }
+
+/* styling the footer */
 .aligned{
   margin-bottom: 20px;
 }

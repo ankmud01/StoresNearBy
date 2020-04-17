@@ -97,12 +97,47 @@ $(document).ready(function () {
         var selectedid = $(this).attr("id")     //This get the value inside the id attribute
         console.log(selectedid);
         //clearing the content of modal
-        $(".modal-content").text('')
+        $(".modal-content").text('');
+        $(".modal-nutrition").text('');
+        $(".modal-ingredients").text('');
 
-        //adding ingredients 
-        var ingredientstitle = $("<p>").attr("class", "ingredientsinfo").text('Ingredients Required - ');
-        $(".modal-content").append(ingredientstitle);
-        
+        //This section is related to nutrition value api call and appending the response to the modal 
+        var nutritiontitle = $("<h4>").text('Nutrition Value - ');
+        nutritiontitle.css({
+            "font-weight": "Bolder",
+            "font-size": "Large",
+            "text-decoration": "Underline"
+        });
+        $(".modal-nutrition").append(nutritiontitle);
+        var nutritionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/nutritionWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
+        $.ajax({
+            url: nutritionURL,
+            method: "GET",
+            success: (function (nutritionResponse) {
+                console.log(nutritionResponse);
+                var calories = $("<li>").text("Calories: " + nutritionResponse.calories);
+                var carbs = $("<li>").text("Carbs: " + nutritionResponse.carbs);
+                var fat = $("<li>").text("Fat: " + nutritionResponse.fat);
+                var protein = $("<li>").text("Protein: " + nutritionResponse.protein);
+                $(".modal-nutrition").append(calories);
+                $(".modal-nutrition").append(carbs);
+                $(".modal-nutrition").append(fat);
+                $(".modal-nutrition").append(protein);
+            }),
+            error: (function (err) {
+                console.log("ERROR - " + err);
+            })
+        });
+
+
+        //This section is related to ingredients required api call and appending the response to the modal 
+        var ingredientstitle = $("<h4>").text('Ingredients Required - ');
+        ingredientstitle.css({
+            "font-weight": "Bolder",
+            "font-size": "Large",
+            "text-decoration": "Underline"
+        });
+        $(".modal-ingredients").append(ingredientstitle);
 
         var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
         $.ajax({
@@ -112,18 +147,18 @@ $(document).ready(function () {
                 console.log(ingredientsResponse);
                 for (var i = 0; i < ingredientsResponse.ingredients.length; i++) {
                     var ingredientsreq = $("<li>").text(ingredientsResponse.ingredients[i].name + " - Quantity: " + ingredientsResponse.ingredients[i].amount.us.value + " " + ingredientsResponse.ingredients[i].amount.us.unit);
-                    
+
                     //Apending food steps into the modal
-                    $(".ingredientsinfo").append(ingredientsreq);
-                }                                                                                                                                                                                                                                                                                                                                 
+                    $(".modal-ingredients").append(ingredientsreq);
+                }
             }),
             error: (function (err) {
                 console.log("ERROR - " + err);
             })
         });
-        
 
-        //adding steps to cook on the modal
+
+        //This section is related to Steps to prepare the dish api call and appending the response to the modal 
         var foodtitle = $("<h4>")
         foodtitle.text('Steps to Make - ');
         foodtitle.css({
@@ -135,16 +170,14 @@ $(document).ready(function () {
 
         //API call to get the recipes,ingredients and nutrition 
         var instructionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/analyzedInstructions?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
-        // var nutritionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
-        // var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
         $.ajax({
             url: instructionURL,
             method: "GET",
             success: (function (instructionResponse) {
                 console.log(instructionResponse);
                 for (var i = 0; i < instructionResponse[0].steps.length; i++) {
-                    var foodSteps = $("<li>").text(instructionResponse[0].steps[i].step);
-                    //"Step " + instructionResponse[0].steps[i].number + " - " +
+                    var foodSteps = $("<li>").attr("class", "foodstepline")
+                    foodSteps.text(instructionResponse[0].steps[i].step);
                     $(".modal-content").append(foodSteps);
                 }
             }),
@@ -152,7 +185,6 @@ $(document).ready(function () {
                 console.log("ERROR - " + err);
             })
         });
-
     });
 
     //This function is to append the food list into the body of the ui by dynamically creating elements
@@ -182,14 +214,35 @@ $(document).ready(function () {
             var foodname = $("<span>").attr("class", "card-title")
             foodname.text(list[i].title);
             foodname.css("font-size", "20px")
+            var foodtitle = $("<p>")
+            foodtitle.text(list[i].title)
+            foodtitle.css({
+                "font-weight": "Bolder",
+                "font-size": "X-Large",
+                "text-decoration": "Underline"
+            });
 
             //Dynamically creating the modal elements and setting properties
             var modaldiv = $("<div>").attr({
                 id: "m-" + list[i].id,
                 class: "modal"
             })
+            var modalheader = $("<h5>").attr("class", "modal-header");
+            modalheader.css({
+                "text-align": "Center"
+            })
+            var modalnutrition = $("<div>").attr("class", "modal-nutrition")
+            modalnutrition.css({
+                "margin-left": "10px"
+            });
+            var modalingredients = $("<div>").attr("class", "modal-ingredients");
+            modalingredients.css({
+                "margin-left": "10px",
+                "margin-top": "20px"
+            })
             var modalcontent = $("<div>").attr("class", "modal-content");
-            
+
+            //Appending the created elements together
             foodnamediv.append(foodname);
             morefood.append(moreicon);
             imagediv.append(morefood);
@@ -197,8 +250,15 @@ $(document).ready(function () {
             fooditem.append(imagediv);
             fooditem.append(foodnamediv);
             cols12m6.append(fooditem);
+            modalheader.append(foodtitle);
 
+            //Appending the modal elements together
+            modaldiv.append(modalheader);
+            modaldiv.append(modalnutrition);
+            modaldiv.append(modalingredients);
             modaldiv.append(modalcontent);
+
+            //Appending the newly created elements and modal to the main body
             $("#searchresult").append(modaldiv);
             $("#searchresult").append(cols12m6);
         }
