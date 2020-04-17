@@ -19,6 +19,8 @@ $(document).ready(function () {
         }
     });
 
+    $('.dropdown-trigger').dropdown();
+
     async function refreshToken() {
         try {
             const response = await $.ajax({
@@ -95,10 +97,9 @@ $(document).ready(function () {
             let cardAction = $("<div class='card-action'>").append(wishlistBtn);
             $(wishlistBtn).attr("id", "data" + i);
 
-            // generateProductInfo(response, i,wishlistBtn);
 
             let shopBtn = $("<a class='waves-effect btn blue lighten-1 right'><i class='material-icons left'>send</i>Shop</a>");
-            generateProductUrl(response, i, shopBtn);
+            let url = generateProductUrl(response, i, shopBtn);
 
 
             cardAction.append(shopBtn);
@@ -125,40 +126,73 @@ $(document).ready(function () {
 
             $("#productdetails").append(row);
 
+
+
             $(wishlistBtn).on("click", function generateProductInfo() {
                 console.log(response.data)
                 const productName = itemDescription;
+                const productPrice = regularPrice;
+                const productUrl = url;
                 let wishList = [];
                 if (localStorage.getItem("wishList") === null) {
-                    wishList.push(productName);
-                    localStorage.setItem("wishList", JSON.stringify(wishList));
+                    localStorage.setItem("wishList", JSON.stringify([{ "productName": productName, "productPrice": productPrice, "productUrl": productUrl }]))
                 }
                 else {
                     wishList = JSON.parse(localStorage.getItem("wishList"));
-                 
-                    wishList.push(productName);
-                    localStorage.setItem("wishList", JSON.stringify(wishList));
+                    console.log(wishList)
+                    let productFound = false;
+                    for (let index = 0; index < wishList.length; index++) {
+                        let wishlistItem = wishList[index];
+                        // console.log(wishlistItem)
+                        if (wishlistItem.productUrl === productUrl) {
+                            productFound = true
+                        }
+                    }
+                    if (!productFound) {
+                            wishList.push({ "productName": productName, "productPrice": productPrice, "productUrl": productUrl });
+                            localStorage.setItem("wishList", JSON.stringify(wishList))
+                    }
                 }
-              
 
-                console.log(productName);
+
+                // console.log(productName);
 
             });
 
+
+
+
         }
+
+
     }
+    $("#myWishListCall").click(function () {
+        $("#dropdown1").empty();
+        let ItemsName = JSON.parse(localStorage.getItem("wishList"));
+        console.log(ItemsName)
+        if (ItemsName === null) {
+            $("#dropdown1").append("<li> <a> No item </a> </li>");
+        }
+        else {
+            for (let i = 0; i < ItemsName.length; i++) {
+                console.log(ItemsName[i])
+                let newWishListPrice = ItemsName[i].productPrice;
+                let newWishListName = ItemsName[i].productName;
+                let productUrl = ItemsName[i].productUrl;
+                let newATag= $("<a>").text(newWishListName +": "+ newWishListPrice).attr("href",productUrl);
+                let newWishLisInfo = $("<li>").append(newATag);
+                $("#dropdown1").append(newWishLisInfo);
+               
+         }
 
+        }
+        
 
-
-
-
-
-
+    })
 
 
     function generateProductUrl(response, productlinkID, shopBtn) {
         const productName = response.data[productlinkID].description;
-
         const productId = response.data[productlinkID].productId;
         const result = productName
             .toLowerCase()
@@ -167,6 +201,8 @@ $(document).ready(function () {
         const url = `https://www.kroger.com/p/${result}/${productId}`;
 
         redirectProductUrl(url, shopBtn);
+
+        return url;
     }
 
     function redirectProductUrl(url, shopBtn) {
@@ -178,26 +214,6 @@ $(document).ready(function () {
         return $("<img>").attr("src", imageurl);
     }
 
-
-    function addItemToWishList(itemDescription) {
-        let blankData = [
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        ]
-        localStorage.setItem("wishlist", JSON.stringify({ data: blankData }));
-    }
 
 
     // Fetch Location IDs API call
@@ -236,7 +252,6 @@ $(document).ready(function () {
                 locationIds = retryStrategyForLocationIdsApi(error, zipCode, limitMiles)
             });
     }
-
 
 
 });
