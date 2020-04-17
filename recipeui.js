@@ -1,9 +1,9 @@
 $(document).ready(function () {
+    //This function disables the serach button or dropdown based on input
     $(function () {
-        $("#foodsearch").keyup(function () {
+        $("#foodsearch").keydown(function () {
             if ($(this).val() == '') {
                 $('.enableOnInput').prop('disabled', true);
-
             } else {
                 $('.enableOnInput').prop('disabled', false);
                 $('#cuisineoption').prop('disabled', true);
@@ -13,7 +13,8 @@ $(document).ready(function () {
         $('#cuisineoption').click(function (event) {
             if ($(this).val() == '') {
                 $('.enableOnInput').prop('disabled', true)
-            } else {
+            }
+            else {
                 $('.enableOnInput').prop('disabled', false)
                 $("#dietoption").prop('disabled', true);
                 $("#foodsearch").prop('disabled', true);
@@ -22,7 +23,8 @@ $(document).ready(function () {
         $('#dietoption').click(function (event) {
             if ($(this).val() == '') {
                 $('.enableOnInput').prop('disabled', true)
-            } else {
+            }
+            else {
                 $('.enableOnInput').prop('disabled', false)
                 $("#cuisineoption").prop('disabled', true);
                 $("#foodsearch").prop('disabled', true);
@@ -30,21 +32,28 @@ $(document).ready(function () {
         })
     });
 
+    //This function enables the serach button or dropdown after user has submitted the search
+    $("#userinputinfo").submit(function (event) {
+        $('.enableOnInput').prop('disabled', true);
+        $("#foodsearch").prop('disabled', false);
+        $("#cuisineoption").prop('disabled', false);
+        $("#dietoption").prop('disabled', false);
+    });
+
+
     var searchtext = $("#foodsearch");
     var searchcuisine = $("#cuisineoption");
     var searchdiet = $("#dietoption");
 
+    //This is a submit event which is invoked when user enters a search keyword and presses enter or clicks on search button
     $("#userinputinfo").submit(function (event) {
         event.preventDefault();
         $("#searchresult").html('');
         var foodsearched = searchtext.val();
-        console.log(foodsearched);
         var cuisineselected = searchcuisine.val();
-        console.log(cuisineselected);
         var dietselected = searchdiet.val();
-        console.log(dietselected);
 
-
+        //Based on which search input user chooses the condition below selects the correct URL for API call
         foodListArr = [];
         foodListObj = {};
         var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=10"
@@ -57,8 +66,8 @@ $(document).ready(function () {
             url: foodURL,
             method: "GET",
             success: (function (foodResponse) {
-                console.log(foodURL);
                 console.log(foodResponse);
+                //The response from api is used to create an object and push it into an Array
                 for (var i = 0; i < foodResponse.results.length; i++) {
                     foodListObj = {
                         id: foodResponse.results[i].id,
@@ -69,6 +78,8 @@ $(document).ready(function () {
                     foodListArr.push(foodListObj);
                 }
                 appendFood(foodListArr);
+
+                //This is to clear the search area once the event has been fired
                 $("#foodsearch").val('');
                 $("#cuisineoption").val('');
                 $("#dietoption").val('');
@@ -87,20 +98,21 @@ $(document).ready(function () {
         console.log(selectedid);
         $(".modal-content").text('');
 
+        //API call to get the recipes,ingredients and nutrition 
         var instructionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/analyzedInstructions?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
-         nutritionURL =  "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
-        ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
+        var nutritionURL = "https://api.spoonacular.com/recipes/" + selectedid + "/information?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&includeNutrition=false";
+        var ingredientsURL = "https://api.spoonacular.com/recipes/" + selectedid + "/ingredientWidget.json?apiKey=95ae78eaca0d4ab7832f91cbb104fb11";
         $.ajax({
             url: instructionURL,
             method: "GET",
             success: (function (instructionResponse) {
                 console.log(instructionResponse);
-                            for (var i=0; i<instructionResponse[0].steps.length; i++){
-                            var foodSteps = $("<li>").text("Step "+ instructionResponse[0].steps[i].number + " - " + instructionResponse[0].steps[i].step);
-                            console.log(foodSteps);
-
-                            $(".modal-content").append(foodSteps);
-                } 
+                for (var i = 0; i < instructionResponse[0].steps.length; i++) {
+                    var foodSteps = $("<li>").text("Step " + instructionResponse[0].steps[i].number + " - " + instructionResponse[0].steps[i].step);
+                    console.log(foodSteps);
+                    //Apending food steps into the modal
+                    $(".modal-content").append(foodSteps);
+                }
             }),
             error: (function (err) {
                 console.log("ERROR - " + err);
@@ -109,6 +121,7 @@ $(document).ready(function () {
 
     });
 
+    //This function is to append the food list into the body of the ui by dynamically creating elements
     function appendFood(list) {
         var resultfood = $("#foodsearchedfor")
         var searchvaluefood = searchtext.val();
@@ -119,7 +132,6 @@ $(document).ready(function () {
         }
         resultfood.text("Retsults : " + searchvaluefood);
         for (var i = 0; i < list.length; i++) {
-            // var searchdiv = $("<div>").attr("id","searchresult")
             var cols12m6 = $("<div>").attr("class", "col s12 m6");
             var fooditem = $("<div>").attr("class", "card singleitem");
             var imagediv = $("<div>").attr("class", "card-image");
@@ -137,6 +149,7 @@ $(document).ready(function () {
             foodname.text(list[i].title);
             foodname.css("font-size", "20px")
 
+            //Dynamically creating the modal elements and setting properties
             var modaldiv = $("<div>").attr({
                 id: "m-" + list[i].id,
                 class: "modal"
@@ -162,7 +175,6 @@ $(document).ready(function () {
             modaldiv.append(modalcontent);
             $("#searchresult").append(modaldiv);
             $("#searchresult").append(cols12m6);
-            // $("#newrow").append(searchdiv);
         }
     }
 });
