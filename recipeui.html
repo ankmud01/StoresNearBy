@@ -35,7 +35,7 @@
       </div>
       <div class="col s4" id="cuisinesearch">
         <label>Cuisines</label>
-        <select class="browser-default" id="cuisineoption" >
+        <select class="browser-default" id="cuisineoption">
           <option value="" disabled selected>Select a cuisine</option>
           <option value="African">African</option>
           <option value="American">American</option>
@@ -57,7 +57,7 @@
       </div>
       <div class="col s4" id="dietsearch">
         <label>Diet</label>
-        <select class="browser-default" id="dietoption" >
+        <select class="browser-default" id="dietoption">
           <option value="" disabled selected>Select a Diet</option>
           <option value="Gluten Free">Gluten Free</option>
           <option value="Ketogenic">Ketogenic</option>
@@ -76,17 +76,20 @@
     <div>
       <div class="divider"></div>
       <h6 id="foodsearchedfor">Results:</h6>
+      <div>
+        <ul class="pagination"></ul>
+      </div>
       <div class="row">
-      <div id="searchresult"></div>
-      <!-- <div id="stepstocook"></div> -->
+        <div id="searchresult"></div>
       </div>
     </div>
   </main>
   <footer class="page-footer">
     <h6 class="center aligned">© 2020 CAM Team Production</h6>
   </footer>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>    
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
   <script src="./recipeui.js"></script>
 </body>
 

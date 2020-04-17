@@ -56,11 +56,11 @@ $(document).ready(function () {
         //Based on which search input user chooses the condition below selects the correct URL for API call
         foodListArr = [];
         foodListObj = {};
-        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=10"
+        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=50"
         if (foodsearched === '' && cuisineselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=10";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=50";
         } else if (foodsearched === '' && dietselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=10";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=50";
         }
         $.ajax({
             url: foodURL,
@@ -262,5 +262,75 @@ $(document).ready(function () {
             $("#searchresult").append(modaldiv);
             $("#searchresult").append(cols12m6);
         }
+//PAGINATION CODE
+
+var numberoffoodItems = $("#searchresult .col").length
+alert("numberoffoodItems " + numberoffoodItems);
+var limitPerPage = 10;
+$("#searchresult .col:gt(" + (limitPerPage - 1) + ")").hide();
+var totalPages = Math.round(Math.ceil(numberoffoodItems / limitPerPage));
+alert("number of total pages - " + totalPages);
+$(".pagination").append("<li id='previouspage' class='pagennumber'><a href='#'><i class='material-icons'>chevron_left</i></a></li>");
+$(".pagination").append("<li class='active pagennumber'><a href='#'>" + 1 + "</a></li>");
+    
+for (i = 2; i <= totalPages; i++) {
+    $(".pagination").append("<li class='waves-effect pagennumber'><a href='#'>" + [i] + "</a></li>");
+}
+    
+$(".pagination").append("<li id='nextpage' class='waves-effect'><a href='#'><i class='material-icons'>chevron_right</i></a></li>")
+    
+$(".pagination .pagennumber").on("click", function (event) {
+    event.preventDefault();
+    if ($(this).hasClass("active")) {
+        return false;
+    } else {
+        var currentpage = $(this).index();
+        // alert("User clicked on " + currentpage);  
+        $(".pagination li").removeClass("active");
+        $(this).addClass("active");
+        $("#searchresult .col").hide();
+    
+        var grandtotal = limitPerPage * currentpage;
+    
+        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
+            $("#searchresult .col:eq(" + [i] + ")").show();
+        }
+    }
+})
+$("#nextpage").on("click", function(){
+    var currentpage = $(".pagination .active").index();
+    if(currentpage === totalPages){
+        return false;
+    }else{
+        currentpage++;
+        $(".pagination li").removeClass("active");
+        $("#searchresult .col").hide();
+    
+        var grandtotal = limitPerPage * currentpage;
+    
+        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
+            $("#searchresult .col:eq(" + [i] + ")").show();
+        }
+        $(".pagination .pagennumber:eq(" + (currentpage-1) + ")").addClass("active");
+    }
+    
+});
+$("#previouspage").on("click", function(){
+    var currentpage = $(".pagination .active").index();
+    if(currentpage === 1){
+        return false;
+    }else{
+        currentpage--;
+        $(".pagination li").removeClass("active");
+        $("#searchresult .col").hide();
+    
+        var grandtotal = limitPerPage * currentpage;
+    
+        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
+            $("#searchresult .col:eq(" + [i] + ")").show();
+        }
+        $(".pagination .pagennumber:eq(" + (currentpage-1) + ")").addClass("active");
+    }
+});
     }
 });
