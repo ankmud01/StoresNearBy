@@ -2,14 +2,12 @@ $(document).ready(function () {
     var log = console.log;
     var retryCount = 0;
     var tokenUrl = "https://api.kroger.com/v1/connect/oauth2/token";
-
     var token = localStorage.getItem('token') || "";
     $("#store-name").text('');
 
     // On submit of user search query
     $("#search").on('click', function (event) {
         event.preventDefault();
-
         let userInputProduct = $("#product").val().trim(),
             userInputZipCode = $("#zipcode").val().trim();
         const limitMiles = 15;
@@ -20,7 +18,6 @@ $(document).ready(function () {
     });
 
     $('.dropdown-trigger').dropdown();
-
     async function refreshToken() {
         try {
             const response = await $.ajax({
@@ -62,11 +59,9 @@ $(document).ready(function () {
             return await fetchLocationIds(zipCode, limitMiles); // 2
         }
     }
-
     function fetchProducts(userInputProduct, locationId) {
         // Get the products from Kroger API
         var productUrl = "https://api.kroger.com/v1/products?filter.term=" + userInputProduct + "&filter.locationId=" + locationId;
-
         $.ajax({
             url: productUrl,
             method: "GET",
@@ -82,13 +77,12 @@ $(document).ready(function () {
             })
             .catch((error) => retryStrategyForProductSearchApi(error, userInputProduct, locationId));
     }
-
+    
     function appendProductsToDisplay(response) {
         let row = $("<div class='row'>");
         //const recordsPerPage = 4;
         //let totalRecords = response.data.length;
         //let numberOfPages = parseInt(totalRecords / recordsPerPage);
-
         for (var i = 0; i < response.data.length; i++) {
             let cols12m6 = $("<div class='col s12 m6'>");
             let cardPanel = $("<div class='card card-panel hoverable blue lighten-5'>");
@@ -96,37 +90,24 @@ $(document).ready(function () {
             let wishlistBtn = $("<a class='waves-effect btn blue lighten-1 left'><i class='material-icons left'>save</i>Wishlist</a>");
             let cardAction = $("<div class='card-action'>").append(wishlistBtn);
             $(wishlistBtn).attr("id", "data" + i);
-
-
             let shopBtn = $("<a class='waves-effect btn blue lighten-1 right'><i class='material-icons left'>send</i>Shop</a>");
             let url = generateProductUrl(response, i, shopBtn);
-
-
             cardAction.append(shopBtn);
             let spanCardTitle = $("<span class='card-title'>");
             let pTag = $("<p>");
-
             let regularPrice = "$" + response.data[i].items[0].price.regular;
             let itemDescription = response.data[i].description;
-
             spanCardTitle.text(regularPrice);
             pTag.text(itemDescription);
-
             cardContent.append(spanCardTitle);
             cardContent.append(pTag);
-
             let img = createImgeEl(response.data[i].productId);
-
             cardPanel.append(cardContent);
             cardPanel.append(img);
             cardPanel.append(cardAction);
-
             cols12m6.append(cardPanel);
             row.append(cols12m6);
-
             $("#productdetails").append(row);
-
-
 
             $(wishlistBtn).on("click", function generateProductInfo() {
                 console.log(response.data)
@@ -149,23 +130,14 @@ $(document).ready(function () {
                         }
                     }
                     if (!productFound) {
-                            wishList.push({ "productName": productName, "productPrice": productPrice, "productUrl": productUrl });
-                            localStorage.setItem("wishList", JSON.stringify(wishList))
+                        wishList.push({ "productName": productName, "productPrice": productPrice, "productUrl": productUrl });
+                        localStorage.setItem("wishList", JSON.stringify(wishList))
                     }
                 }
-
-
-                // console.log(productName);
-
             });
-
-
-
-
         }
-
-
     }
+
     $("#myWishListCall").click(function () {
         $("#dropdown1").empty();
         let ItemsName = JSON.parse(localStorage.getItem("wishList"));
@@ -179,17 +151,12 @@ $(document).ready(function () {
                 let newWishListPrice = ItemsName[i].productPrice;
                 let newWishListName = ItemsName[i].productName;
                 let productUrl = ItemsName[i].productUrl;
-                let newATag= $("<a>").text(newWishListName +": "+ newWishListPrice).attr("href",productUrl);
+                let newATag = $("<a>").text(newWishListName + ": " + newWishListPrice).attr("href", productUrl);
                 let newWishLisInfo = $("<li>").append(newATag);
                 $("#dropdown1").append(newWishLisInfo);
-               
-         }
-
+            }
         }
-        
-
     })
-
 
     function generateProductUrl(response, productlinkID, shopBtn) {
         const productName = response.data[productlinkID].description;
@@ -199,23 +166,17 @@ $(document).ready(function () {
             .replace(/[^0-9,^a-z,^ ]/g, "")
             .replace(/ +/g, '-');
         const url = `https://www.kroger.com/p/${result}/${productId}`;
-
         redirectProductUrl(url, shopBtn);
-
         return url;
     }
 
     function redirectProductUrl(url, shopBtn) {
         $(shopBtn).attr("href", url)
     }
-
     function createImgeEl(productId) {
         let imageurl = "https://www.kroger.com/product/images/small/front/" + productId;
         return $("<img>").attr("src", imageurl);
     }
-
-
-
     // Fetch Location IDs API call
     function fetchLocationIds(zipCode, limitMiles, userInputProduct) {
         let locationIds = [];
@@ -229,16 +190,11 @@ $(document).ready(function () {
             }
         })
             .then(function (response) {
-
-                //$("#chain").append("<strong>" + response.data[0].chain + "</strong>");
-
                 $("#store-name").text('Kroger');
-
                 for (let index = 0; index < response.data.length - 1; index++) {
                     locationIds.push(response.data[index].locationId);
                     // console.log(locationIds[index]);
                 }
-
                 // After getting Location IDs call Product API for each location ID and our search item
                 //console.log(locationIds);
                 if (locationIds.length !== 0) {
@@ -252,8 +208,6 @@ $(document).ready(function () {
                 locationIds = retryStrategyForLocationIdsApi(error, zipCode, limitMiles)
             });
     }
-
-
 });
 
 
