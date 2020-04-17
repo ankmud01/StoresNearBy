@@ -77,7 +77,6 @@ $(document).ready(function () {
             })
             .catch((error) => retryStrategyForProductSearchApi(error, userInputProduct, locationId));
     }
-    
     function appendProductsToDisplay(response) {
         let row = $("<div class='row'>");
         //const recordsPerPage = 4;
@@ -130,11 +129,11 @@ $(document).ready(function () {
                         }
                     }
                     if (!productFound) {
-                        wishList.push({ "productName": productName, "productPrice": productPrice, "productUrl": productUrl });
-                        localStorage.setItem("wishList", JSON.stringify(wishList))
+                            wishList.push({ "productName": productName, "productPrice": productPrice, "productUrl": productUrl });
+                            localStorage.setItem("wishList", JSON.stringify(wishList))
                     }
                 }
-            });
+           });
         }
     }
 
@@ -151,11 +150,11 @@ $(document).ready(function () {
                 let newWishListPrice = ItemsName[i].productPrice;
                 let newWishListName = ItemsName[i].productName;
                 let productUrl = ItemsName[i].productUrl;
-                let newATag = $("<a>").text(newWishListName + ": " + newWishListPrice).attr("href", productUrl);
+                let newATag= $("<a>").text(newWishListName +": "+ newWishListPrice).attr("href",productUrl);
                 let newWishLisInfo = $("<li>").append(newATag);
-                $("#dropdown1").append(newWishLisInfo);
-            }
-        }
+                $("#dropdown1").append(newWishLisInfo);  
+         }
+        } 
     })
 
     function generateProductUrl(response, productlinkID, shopBtn) {
