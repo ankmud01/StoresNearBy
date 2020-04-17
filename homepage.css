@@ -47,10 +47,7 @@ img{
 
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
+
 
 .dropdown-content {
   display: none;
@@ -74,6 +71,3 @@ img{
   background-color: #ddd;
 }
 
-.dropdown:hover .dropdown-content {
-  display: block;
-}
