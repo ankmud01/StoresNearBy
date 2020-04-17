@@ -2,6 +2,7 @@ $(document).ready(function () {
     var log = console.log;
     var retryCount = 0;
     var tokenUrl = "https://api.kroger.com/v1/connect/oauth2/token";
+    let totalRecords;
 
     var token = localStorage.getItem('token') || "";
     $("#store-name").text('');
@@ -9,7 +10,7 @@ $(document).ready(function () {
     // On submit of user search query
     $("#search").on('click', function (event) {
         event.preventDefault();
-        
+        totalRecords = 0;
         let userInputProduct = $("#product").val().trim(),
             userInputZipCode = $("#zipcode").val().trim();
         const limitMiles = 15;
@@ -75,18 +76,14 @@ $(document).ready(function () {
         })
             .then(function (response) {
                 retryCount = 0;
-                log("Data: ", response);
                 appendProductsToDisplay(response);
             })
             .catch((error) => retryStrategyForProductSearchApi(error, userInputProduct, locationId));
     }
 
     function appendProductsToDisplay(response) {
-        let row = $("<div class='row'>");
-        //const recordsPerPage = 4;
-        //let totalRecords = response.data.length;
-        //let numberOfPages = parseInt(totalRecords / recordsPerPage);
-        
+        let rowArrayProducts = [];
+
         for (var i = 0; i < response.data.length; i++) {
             let cols12m6 = $("<div class='col s12 m6'>");
             let cardPanel = $("<div class='card card-panel hoverable blue lighten-5'>");
@@ -116,10 +113,43 @@ $(document).ready(function () {
             cardPanel.append(cardAction);
 
             cols12m6.append(cardPanel);
-            row.append(cols12m6);
+            rowArrayProducts.push(cols12m6);
 
-            $("#productdetails").append(row);
+            totalRecords++;
+
+            if (totalRecords % 4 === 0) {
+                let pageNum = (totalRecords / 4);
+                let row = $("<div class='row'>");
+                row.addClass('search-records');
+                row.attr('id', pageNum);
+                rowArrayProducts.forEach(record => {
+                    row.append(record);
+                });
+                paginateResults(totalRecords);
+                $("#productdetails").append(row);
+                rowArrayProducts = [];
+            }
+
+            showPage(1);
+
+            $("#paginate li a").on('click', function () {
+                $(".waves-effect").removeClass("active");
+                $(this).parent().addClass("active");
+                showPage(parseInt($(this).text()));
+            });
         }
+    }
+
+    function paginateResults(totalRecords) {
+        let liPage = $("<li>");
+        liPage.addClass("waves-effect");
+        let aTag = $("<a>");
+        aTag.addClass('pageNum');
+        aTag.attr("href", "#");
+        aTag.text((totalRecords / 4));
+        liPage.append(aTag);
+        $("#paginate").append(liPage);
+        $(".waves-effect").first().addClass('active');
     }
 
     function generateProductUrl(response, productlinkID) {
@@ -165,11 +195,8 @@ $(document).ready(function () {
 
                 for (let index = 0; index < response.data.length - 1; index++) {
                     locationIds.push(response.data[index].locationId);
-                    console.log(locationIds[index]);
                 }
 
-                // After getting Location IDs call Product API for each location ID and our search item
-                //console.log(locationIds);
                 if (locationIds.length !== 0) {
                     locationIds.forEach(locationId => {
                         fetchProducts(userInputProduct, locationId);
@@ -180,5 +207,15 @@ $(document).ready(function () {
                 localStorage.clear();
                 locationIds = retryStrategyForLocationIdsApi(error, zipCode, limitMiles)
             });
+    }
+
+    function showPage(page) {
+        let recordsPerPage = 1;
+        $(".search-records").hide();
+        $(".search-records").each(function (n) {
+            if (n >= recordsPerPage * (page - 1) && n < recordsPerPage * page) {
+                $(this).show();
+            }
+        });
     }
 });
