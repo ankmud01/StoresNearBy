@@ -6,16 +6,21 @@ $(document).ready(function () {
 
     var token = localStorage.getItem('token') || "";
     $("#store-name").text('');
+    $("#resultsText").text('');
 
     // On submit of user search query
     $("#search").on('click', function (event) {
         event.preventDefault();
+        $("#paginate").empty();
         totalRecords = 0;
         let userInputProduct = $("#product").val().trim(),
             userInputZipCode = $("#zipcode").val().trim();
         const limitMiles = 15;
         if (!isDataInvalid(userInputProduct, userInputZipCode)) {
             $("#productdetails").empty();
+            $("#resultsText").text("Results");
+            $("#store-name").text('Kroger');
+            $("#storename").append("<div class='divider'></div>");
             fetchLocationIds(userInputZipCode, limitMiles, userInputProduct);
         }
     });
@@ -204,7 +209,8 @@ $(document).ready(function () {
     }
 
     function redirectProductUrl(url, shopBtn) {
-        $(shopBtn).attr("href", url)
+        $(shopBtn).attr("href", url);
+        $(shopBtn).attr("target", "_blank");
     }
     function createImgeEl(productId) {
         let imageurl = "https://www.kroger.com/product/images/small/front/" + productId;
@@ -223,7 +229,6 @@ $(document).ready(function () {
             }
         })
             .then(function (response) {
-                $("#store-name").text('Kroger');
                 for (let index = 0; index < response.data.length - 1; index++) {
                     locationIds.push(response.data[index].locationId);
                 }
