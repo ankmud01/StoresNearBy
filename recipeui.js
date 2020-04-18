@@ -57,17 +57,16 @@ $(document).ready(function () {
         //Based on which search input user chooses the condition below selects the correct URL for API call
         foodListArr = [];
         foodListObj = {};
-        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=30"
+        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=50"
         if (foodsearched === '' && cuisineselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=30";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=50";
         } else if (foodsearched === '' && dietselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=30";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=50";
         }
         $.ajax({
             url: foodURL,
             method: "GET",
             success: (function (foodResponse) {
-                console.log(foodResponse);
                 //The response from api is used to create an object and push it into an Array
                 for (var i = 0; i < foodResponse.results.length; i++) {
                     foodListObj = {
@@ -75,7 +74,6 @@ $(document).ready(function () {
                         title: foodResponse.results[i].title,
                         foodimage: foodResponse.baseUri + foodResponse.results[i].id + "-" + "480x360.jpg"
                     };
-                    console.log(foodListObj);
                     foodListArr.push(foodListObj);
                 }
                 appendFood(foodListArr);
@@ -95,12 +93,11 @@ $(document).ready(function () {
     $("#searchresult").on("click", ".modal-trigger", function (event) {
         event.preventDefault();
         var selectedid = $(this).attr("id")     //This get the value inside the id attribute
-        console.log(selectedid);
         //clearing the content of modal
         $(".modal-content").text('');
         $(".modal-nutrition").text('');
         $(".modal-ingredients").text('');
-        
+
 
         //This section is related to nutrition value api call and appending the response to the modal 
         var nutritiontitle = $("<h4>").text('Nutrition Value - ');
@@ -115,7 +112,6 @@ $(document).ready(function () {
             url: nutritionURL,
             method: "GET",
             success: (function (nutritionResponse) {
-                console.log(nutritionResponse);
                 var calories = $("<li>").text("Calories: " + nutritionResponse.calories);
                 var carbs = $("<li>").text("Carbs: " + nutritionResponse.carbs);
                 var fat = $("<li>").text("Fat: " + nutritionResponse.fat);
@@ -145,7 +141,6 @@ $(document).ready(function () {
             url: ingredientsURL,
             method: "GET",
             success: (function (ingredientsResponse) {
-                console.log(ingredientsResponse);
                 for (var i = 0; i < ingredientsResponse.ingredients.length; i++) {
                     var ingredientsreq = $("<li>").text(ingredientsResponse.ingredients[i].name + " - Quantity: " + ingredientsResponse.ingredients[i].amount.us.value + " " + ingredientsResponse.ingredients[i].amount.us.unit);
 
@@ -175,7 +170,6 @@ $(document).ready(function () {
             url: instructionURL,
             method: "GET",
             success: (function (instructionResponse) {
-                console.log(instructionResponse);
                 for (var i = 0; i < instructionResponse[0].steps.length; i++) {
                     var foodSteps = $("<li>").attr("class", "foodstepline")
                     foodSteps.text(instructionResponse[0].steps[i].step);
@@ -197,7 +191,7 @@ $(document).ready(function () {
         } else if (searchtext.val() === '' && searchdiet.val() === null) {
             searchvaluefood = $("#cuisineoption").val();
         }
-        resultfood.text("Retsults : " + searchvaluefood);
+        resultfood.text("Results : " + searchvaluefood);
         for (var i = 0; i < list.length; i++) {
             var cols12m6 = $("<div>").attr("class", "col s12 m6 foodcol");
             var fooditem = $("<div>").attr("class", "card singleitem");
@@ -264,79 +258,87 @@ $(document).ready(function () {
             $("#searchresult").append(cols12m6);
         }
 
-        // var numberoffoodItems = $("#searchresult .foodcol").length
-        var numberOfItems = $('#searchresult .foodcol').length;
-        var limitPerPage = 10;
-        $('#searchresult .foodcol:gt(' + (limitPerPage - 1) + ')').hide();
-        var totalPages = Math.round(numberOfItems / limitPerPage);
+        //Pagination Code
         
-        $(".pagination").append("<li class='current-page active'><a href='#'>" + 1 + "</a></li>"); // Add first page marker
+        // Get total number of the items that should be paginated
+        var numberoffoodItems = $("#searchresult .foodcol").length
+        // Limit of items per each page
+        var limitPerPage = 10;
+        $("#searchresult .foodcol:gt(" + (limitPerPage - 1) + ")").hide();
+        var totalPages = Math.round(numberoffoodItems / limitPerPage);
+        $(".pagination").append("<li id='previouspage'><a href='#!'><i class='material-icons'>chevron_left</i></a></li>");
+        $(".pagination").append("<li class='pagenumber active'><a href='#!'>" + 1 + "</a></li>");
 
-        // Loop to insert page number for each sets of items equal to page limit (e.g., limit of 10 with 30 total items = insert 3 pages)
-        for (var i = 2; i <= totalPages; i++) {
-        $(".pagination").append("<li class='current-page waves-effect'><a href='#'>" + i + "</a></li>"); // Insert page number into pagination tabs
+        // Loop to insert page number for each sets of items equal to page limit
+        for (i = 2; i <= totalPages; i++) {
+            $(".pagination").append("<li class='waves-effect pagenumber'><a href='#!'>" + i + "</a></li>");
         }
 
-        // Function that displays new items based on page number that was clicked
-        $(".pagination li.current-page").on("click", function() {
-        // Check if page number that was clicked on is the current page that is being displayed
-        if ($(this).hasClass('active')) {
-            return false; // Return false (i.e., nothing to do, since user clicked on the page number that is already being displayed)
-        } else {
-            var currentPage = $(this).index(); // Get the current page number
-            $(".pagination li").removeClass('active'); // Remove the 'active' class status from the page that is currently being displayed
-            $(this).addClass('active'); // Add the 'active' class status to the page that was clicked on
-            $("#searchresult .foodcol").hide(); // Hide all items in loop, this case, all the list groups
-            var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page number that was clicked on
+        // Add next button after all the page numbers  
+        $(".pagination").append("<li id='nextpage' class='waves-effect'><a href='#!'><i class='material-icons'>chevron_right</i></a></li>")
 
-            // Loop through total items, selecting a new set of items based on page number
-            for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
-            $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
+        $(".pagination li.pagenumber").on("click", function () {
+            // Check if page number that was clicked on is the current page that is being displayed
+            if ($(this).hasClass("active")) {
+                return false;
+            } else {
+                // Get the current page number
+                var currentpage = $(this).index();
+                // alert("User clicked on " + currentpage);  
+                $(".pagination li").removeClass("active");
+                $(this).addClass("active");
+                $("#searchresult .foodcol").hide();
+                var grandtotal = limitPerPage * currentpage;
+
+                // Loop through total items, selecting a new set of items based on page number
+                for (var i = grandtotal - limitPerPage; i < grandtotal; i++) {
+                    $("#searchresult .foodcol:eq(" + i + ")").show();
+                }
             }
-        }
+        });
+
+        // Function to navigate to the next page when users click on the next-page id (next page button)
+        $("#nextpage").on("click", function () {
+            var currentpage = $(".pagination li.active").index();
+            // Check to make sure that navigating to the next page will not exceed the total number of pages
+            if (currentpage === totalPages) {
+                return false;
+            } else {
+                //Increment page by one
+                currentpage++;
+                $(".pagination li").removeClass("active");
+                $("#searchresult .foodcol").hide();
+                var grandtotal = limitPerPage * currentpage;
+
+                // Loop through total items, selecting a new set of items based on page number
+                for (var i = grandtotal - limitPerPage; i < grandtotal; i++) {
+                    $("#searchresult .foodcol:eq(" + i + ")").show();
+                }
+                $(".pagination li.pagenumber:eq(" + (currentpage - 1) + ")").addClass("active");
+            }
 
         });
 
-        // // Function to navigate to the next page when users click on the next-page id (next page button)
-        // $("#next-page").on("click", function() {
-        // var currentPage = $(".pagination li.active").index(); // Identify the current active page
-        // // Check to make sure that navigating to the next page will not exceed the total number of pages
-        // if (currentPage === totalPages) {
-        //     return false; // Return false (i.e., cannot navigate any further, since it would exceed the maximum number of pages)
-        // } else {
-        //     currentPage++; // Increment the page by one
-        //     $(".pagination li").removeClass('active'); // Remove the 'active' class status from the current page
-        //     $("#searchresult .foodcol").hide(); // Hide all items in the pagination loop
-        //     var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page that was selected
-
-        //     // Loop through total items, selecting a new set of items based on page number
-        //     for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
-        //     $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
-        //     }
-
-        //     $(".pagination li.current-page:eq(" + (currentPage - 1) + ")").addClass('active'); // Make new page number the 'active' page
-        // }
-        // });
-
         // Function to navigate to the previous page when users click on the previous-page id (previous page button)
-        // $("#previous-page").on("click", function() {
-        // var currentPage = $(".pagination li.active").index(); // Identify the current active page
-        // // Check to make sure that users is not on page 1 and attempting to navigating to a previous page
-        // if (currentPage === 1) {
-        //     return false; // Return false (i.e., cannot navigate to a previous page because the current page is page 1)
-        // } else {
-        //     currentPage--; // Decrement page by one
-        //     $(".pagination li").removeClass('active'); // Remove the 'activate' status class from the previous active page number
-        //     $("#searchresult .foodcol").hide(); // Hide all items in the pagination loop
-        //     var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page that was selected
+        $("#previouspage").on("click", function () {
+            var currentpage = $(".pagination li.active").index();
+            // Check to make sure that users is not on page 1 and attempting to navigating to a previous page
+            //Return false (i.e., cannot navigate to a previous page because the current page is page 1)
+            if (currentpage === 1) {
+                return false;
+            } else {
+                //Decrement page by one
+                currentpage--;
+                $(".pagination li").removeClass("active");
+                $("#searchresult .foodcol").hide();
+                var grandtotal = limitPerPage * currentpage;
 
-        //     // Loop through total items, selecting a new set of items based on page number
-        //     for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
-        //     $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
-        //     }
-
-        //     $(".pagination li.current-page:eq(" + (currentPage - 1) + ")").addClass('active'); // Make new page number the 'active' page
-        // }
-        // });
+                // Loop through total items, selecting a new set of items based on page number
+                for (var i = grandtotal - limitPerPage; i < grandtotal; i++) {
+                    $("#searchresult .foodcol:eq(" + i + ")").show();
+                }
+                $(".pagination li.pagenumber:eq(" + (currentpage - 1) + ")").addClass("active");
+            }
+        });
     }
 });
