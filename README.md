@@ -27,18 +27,18 @@ THEN I am presented with all the products that I added to Wishlist previously. I
 WHEN I click the next page
 THEN I am again presented with more products met the search criteria. 
 
-Under Find Receipt Page:
-THEN I am presented with the receipt.
+Under Find Recipe Page:
+THEN I am presented with the recipe.
 WHEN I select the type of Cuisines, with options from different countries
 THEN I am presented with dish name and dish image
 WHEN I select the type of Cuisines, with options from different diets,
 THEN I am presented with dish name and dish image
 WHEN I search for food name
 THEN I am presented with dish name and dish image
-WHEN I click on Red Button on the image
-THEN I am presented with the receipt   
+WHEN I click on more icon (Red Button) on the image
+THEN I am presented with the nutrition information, Ingredients and Steps to make the selected dish   
 WHEN I click the next page
-THEN I am again presented with more products met the search criteria. 
+THEN I am again presented with more products that met the search criteria. 
 
 
 The following image demonstrates the application functionality:
