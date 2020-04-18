@@ -2,21 +2,15 @@ $(document).ready(function () {
     var log = console.log;
     var retryCount = 0;
     var tokenUrl = "https://api.kroger.com/v1/connect/oauth2/token";
-<<<<<<< HEAD
     let totalRecords;
 
-=======
->>>>>>> 8ce16019b44b023169b15be248753af451d92008
     var token = localStorage.getItem('token') || "";
     $("#store-name").text('');
 
     // On submit of user search query
     $("#search").on('click', function (event) {
         event.preventDefault();
-<<<<<<< HEAD
         totalRecords = 0;
-=======
->>>>>>> 8ce16019b44b023169b15be248753af451d92008
         let userInputProduct = $("#product").val().trim(),
             userInputZipCode = $("#zipcode").val().trim();
         const limitMiles = 15;
