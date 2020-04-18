@@ -56,11 +56,11 @@ $(document).ready(function () {
         //Based on which search input user chooses the condition below selects the correct URL for API call
         foodListArr = [];
         foodListObj = {};
-        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=50"
+        var foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&query=" + foodsearched + "&number=30"
         if (foodsearched === '' && cuisineselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=50";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&diet=" + dietselected + "&number=30";
         } else if (foodsearched === '' && dietselected === null) {
-            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=50";
+            foodURL = "https://api.spoonacular.com/recipes/search?apiKey=95ae78eaca0d4ab7832f91cbb104fb11&cuisine=" + cuisineselected + "&number=30";
         }
         $.ajax({
             url: foodURL,
@@ -83,7 +83,6 @@ $(document).ready(function () {
                 $("#foodsearch").val('');
                 $("#cuisineoption").val('');
                 $("#dietoption").val('');
-
             }),
             error: (function (err) {
                 console.log("ERROR - " + err);
@@ -198,7 +197,7 @@ $(document).ready(function () {
         }
         resultfood.text("Retsults : " + searchvaluefood);
         for (var i = 0; i < list.length; i++) {
-            var cols12m6 = $("<div>").attr("class", "col s12 m6");
+            var cols12m6 = $("<div>").attr("class", "col s12 m6 foodcol");
             var fooditem = $("<div>").attr("class", "card singleitem");
             var imagediv = $("<div>").attr("class", "card-image");
             var foodimage = $("<img>").attr("src", list[i].foodimage);
@@ -262,75 +261,83 @@ $(document).ready(function () {
             $("#searchresult").append(modaldiv);
             $("#searchresult").append(cols12m6);
         }
-//PAGINATION CODE
 
-var numberoffoodItems = $("#searchresult .col").length
-alert("numberoffoodItems " + numberoffoodItems);
-var limitPerPage = 10;
-$("#searchresult .col:gt(" + (limitPerPage - 1) + ")").hide();
-var totalPages = Math.round(Math.ceil(numberoffoodItems / limitPerPage));
-alert("number of total pages - " + totalPages);
-$(".pagination").append("<li id='previouspage' class='pagennumber'><a href='#'><i class='material-icons'>chevron_left</i></a></li>");
-$(".pagination").append("<li class='active pagennumber'><a href='#'>" + 1 + "</a></li>");
-    
-for (i = 2; i <= totalPages; i++) {
-    $(".pagination").append("<li class='waves-effect pagennumber'><a href='#'>" + [i] + "</a></li>");
-}
-    
-$(".pagination").append("<li id='nextpage' class='waves-effect'><a href='#'><i class='material-icons'>chevron_right</i></a></li>")
-    
-$(".pagination .pagennumber").on("click", function (event) {
-    event.preventDefault();
-    if ($(this).hasClass("active")) {
-        return false;
-    } else {
-        var currentpage = $(this).index();
-        // alert("User clicked on " + currentpage);  
-        $(".pagination li").removeClass("active");
-        $(this).addClass("active");
-        $("#searchresult .col").hide();
-    
-        var grandtotal = limitPerPage * currentpage;
-    
-        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
-            $("#searchresult .col:eq(" + [i] + ")").show();
+        // var numberoffoodItems = $("#searchresult .foodcol").length
+        var numberOfItems = $('#searchresult .foodcol').length; // Get total number of the items that should be paginated
+        var limitPerPage = 10; // Limit of items per each page
+        $('#searchresult .foodcol:gt(' + (limitPerPage - 1) + ')').hide(); // Hide all items over page limits (e.g., 5th item, 6th item, etc.)
+        var totalPages = Math.round(numberOfItems / limitPerPage); // Get number of pages
+        $(".pagination").append("<li id='previouspage' class='current-page'><a href='#'><i class='material-icons'>chevron_left</i></a></li>");
+        $(".pagination").append("<li class='current-page active'><a href='#'>" + 1 + "</a></li>"); // Add first page marker
+
+        // Loop to insert page number for each sets of items equal to page limit (e.g., limit of 4 with 20 total items = insert 5 pages)
+        for (var i = 2; i <= totalPages; i++) {
+        $(".pagination").append("<li class='current-page waves-effect'><a href='#'>" + i + "</a></li>"); // Insert page number into pagination tabs
         }
-    }
-})
-$("#nextpage").on("click", function(){
-    var currentpage = $(".pagination .active").index();
-    if(currentpage === totalPages){
-        return false;
-    }else{
-        currentpage++;
-        $(".pagination li").removeClass("active");
-        $("#searchresult .col").hide();
-    
-        var grandtotal = limitPerPage * currentpage;
-    
-        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
-            $("#searchresult .col:eq(" + [i] + ")").show();
+
+        // Add next button after all the page numbers  
+        $(".pagination").append("<li id='next-page'class='waves-effect'><a href='#'><i class='material-icons'>chevron_right</i></a></li>");
+
+        // Function that displays new items based on page number that was clicked
+        $(".pagination li.current-page").on("click", function() {
+        // Check if page number that was clicked on is the current page that is being displayed
+        if ($(this).hasClass('active')) {
+            return false; // Return false (i.e., nothing to do, since user clicked on the page number that is already being displayed)
+        } else {
+            var currentPage = $(this).index(); // Get the current page number
+            $(".pagination li").removeClass('active'); // Remove the 'active' class status from the page that is currently being displayed
+            $(this).addClass('active'); // Add the 'active' class status to the page that was clicked on
+            $("#searchresult .foodcol").hide(); // Hide all items in loop, this case, all the list groups
+            var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page number that was clicked on
+
+            // Loop through total items, selecting a new set of items based on page number
+            for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
+            $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
+            }
         }
-        $(".pagination .pagennumber:eq(" + (currentpage-1) + ")").addClass("active");
-    }
-    
-});
-$("#previouspage").on("click", function(){
-    var currentpage = $(".pagination .active").index();
-    if(currentpage === 1){
-        return false;
-    }else{
-        currentpage--;
-        $(".pagination li").removeClass("active");
-        $("#searchresult .col").hide();
-    
-        var grandtotal = limitPerPage * currentpage;
-    
-        for (var i = grandtotal - limitPerPage; i < grandtotal;) {
-            $("#searchresult .col:eq(" + [i] + ")").show();
+
+        });
+
+        // Function to navigate to the next page when users click on the next-page id (next page button)
+        $("#next-page").on("click", function() {
+        var currentPage = $(".pagination li.active").index(); // Identify the current active page
+        // Check to make sure that navigating to the next page will not exceed the total number of pages
+        if (currentPage === totalPages) {
+            return false; // Return false (i.e., cannot navigate any further, since it would exceed the maximum number of pages)
+        } else {
+            currentPage++; // Increment the page by one
+            $(".pagination li").removeClass('active'); // Remove the 'active' class status from the current page
+            $("#searchresult .foodcol").hide(); // Hide all items in the pagination loop
+            var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page that was selected
+
+            // Loop through total items, selecting a new set of items based on page number
+            for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
+            $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
+            }
+
+            $(".pagination li.current-page:eq(" + (currentPage - 1) + ")").addClass('active'); // Make new page number the 'active' page
         }
-        $(".pagination .pagennumber:eq(" + (currentpage-1) + ")").addClass("active");
-    }
-});
+        });
+
+        // Function to navigate to the previous page when users click on the previous-page id (previous page button)
+        $("#previous-page").on("click", function() {
+        var currentPage = $(".pagination li.active").index(); // Identify the current active page
+        // Check to make sure that users is not on page 1 and attempting to navigating to a previous page
+        if (currentPage === 1) {
+            return false; // Return false (i.e., cannot navigate to a previous page because the current page is page 1)
+        } else {
+            currentPage--; // Decrement page by one
+            $(".pagination li").removeClass('active'); // Remove the 'activate' status class from the previous active page number
+            $("#searchresult .foodcol").hide(); // Hide all items in the pagination loop
+            var grandTotal = limitPerPage * currentPage; // Get the total number of items up to the page that was selected
+
+            // Loop through total items, selecting a new set of items based on page number
+            for (var i = grandTotal - limitPerPage; i < grandTotal; i++) {
+            $("#searchresult .foodcol:eq(" + i + ")").show(); // Show items from the new page that was selected
+            }
+
+            $(".pagination li.current-page:eq(" + (currentPage - 1) + ")").addClass('active'); // Make new page number the 'active' page
+        }
+        });
     }
 });
