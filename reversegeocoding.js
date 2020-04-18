@@ -12,10 +12,7 @@ function geoFindMe() {
           url: queryUrl,
           method: "GET"
         }).then(function(response) {
-          console.log(response);
-          
           let getZipCode = response.results["0"].components.postcode;
-          console.log(getZipCode);
           $("#zipcode").val(getZipCode);
         });
     }
