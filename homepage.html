@@ -16,7 +16,10 @@
     <div class="nav-wrapper">
       <a href="landing.html" class="brand-logo"><i class="material-icons">shopping_cart</i>Stores NearBy</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="#">My Wishlist</a></li>
+        <li><a href="./recipeui.html">Find Recipe</a></li>
+        <li><a class='dropdown-trigger' href="#" id="myWishListCall" data-target='dropdown1'>My Wishlist</a></li>
+        <ul id='dropdown1' class='dropdown-content'>
+        </ul>
         <li><a href="#">Community</a></li>
         <li><a href="#">About</a></li>
         <li><a href="#">Feedback</a></li>
@@ -68,6 +71,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="./reversegeocoding.js"></script>
     <script src="./datavalidate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="./storesnearby.js"></script>
 </body>
 </html>

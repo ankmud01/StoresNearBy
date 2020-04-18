@@ -23,7 +23,6 @@
     
     function productValidate(userInputProduct) {
         let retVal = false;
-        //let productInputVal = document.getElementById("product").value;
         let specialCharacter = ["`", "!", "@", "#", "$", "%", "^", "&", "-", "_", "=", " / ", "; ", ", ", " ? ", "; "]
         let specialCharFound = false;
         for (let i = 0; i < specialCharacter.length; i++) {
