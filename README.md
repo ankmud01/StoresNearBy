@@ -1,58 +1,51 @@
-# APIs: Stores Nearby
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen?style=plastic)
+        <img src="https://img.shields.io/badge/license-MIT-green" alt="License Badge">
 
-Our web application allows a user to find products in the stores nearby based on their zip code and search query. The purpose is to narrow down their scavenger hunt for the products they're looking for by displaying the available items in the stores nearby. Meanwhile, we know many of you are concerned about healthy eating, so you can check out the classic recipes from around the world with food calories information.
+# Project-Title: 
+StoresNearBy
 
+## Author: 
+Ankit Mudvari
 
-## User Story
+## Table of Contents
+=====================
+* [Installation](#installation)
+* [License](#license)
+* [Usage](#usage)
+* [Contributors](#contributors)
+* [Test](#test)
+* [Contributing](#contributing)
+* [Questions](#questions)
 
+## Installation
+To install necessary dependencies, run the following command:<br>
 ```
-As a user, I want to see the available item and the product price in the nearby stores (target: Kroger) within 15 miles of radius. Meanwhile, I also want to find receipts to prepare nutritious and delicious food. so that I can buy cheaper products and prepare yummy food.
-
-
+N/A
 ```
 
-## Acceptance Criteria
+## License
+MIT
 
+## Usage
+This application was built to help user find recipes and shop without jumping into different portals. It lets user search for a recipe based on three different search criteria. It gives them nutritional value, ingredients and steps to cook the selected food. User can also use the shopping portal inside the app to buy the ingredients from a local kroger store nearby.
+
+## Collaborators
+ankmud01, mianmianguo2020, Miteshmodi003
+
+## Test
+To run test, run the following comand:<br>
 ```
-Under Start Shopping Page:
-WHEN I search for a product and zip code
-THEN I am presented with the product price, product name and product image
-WHEN I view current weather conditions for that city
-WHEN I click on SHOP button
-THEN I will be directed to the product website 
-WHEN I click on WISHLIST button
-THEN the product price, product name will be stored under My Wishlist
-WHEN I open My Wishlist
-THEN I am presented with all the products that I added to Wishlist previously. If I want more product information, I can click the item under My Wishlist to check out the product website.
-WHEN I click the next page
-THEN I am again presented with more products met the search criteria. 
+N/A
+```
 
-Under Find Recipe Page:
-THEN I am presented with the recipe.
-WHEN I select the type of Cuisines, with options from different countries
-THEN I am presented with dish name and dish image
-WHEN I select the type of Cuisines, with options from different diets,
-THEN I am presented with dish name and dish image
-WHEN I search for food name
-THEN I am presented with dish name and dish image
-WHEN I click on more icon (Red Button) on the image
-THEN I am presented with the nutrition information, Ingredients and Steps to make the selected dish   
-WHEN I click the next page
-THEN I am again presented with more products that met the search criteria. 
+## Contributing
+This was a small project that me and friends did, so any positive feedback is always welcome and please be mindful about other people work before you commit something. :)
 
+<br>
+<img src="https://gph.is/g/ZlR8K5k" alt="Demo">
 
-The following image demonstrates the application functionality:
+## Questions
 
-![Stores NearBy](./Assets/StoresNearby.PNG)
-
-## Review
-
-* The URL of the deployed application.
-https://miteshmodi003.github.io/StoresNearBy/
-
-* The URL of the GitHub repository. 
-https://github.com/Miteshmodi003/StoresNearBy
-
-
-- - -
-© 2020 CAM Team Production All Rights Reserved.
+<img src="https://avatars0.githubusercontent.com/u/59261007?v=4" alt="ME" width="150" height="150"><br>
+if you have any questions about the repo contact me directly at ankmud01@gmail.com thank you.<br>
+If you want to see more of my work please click here https://api.github.com/users/ankmud01/repos.
