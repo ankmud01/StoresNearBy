@@ -41,8 +41,6 @@ N/A
 ## Contributing
 This was a small project that me and friends did, so any positive feedback is always welcome and please be mindful about other people work before you commit something. :)
 
-<br>
-<img src="https://gph.is/g/ZlR8K5k" alt="Demo">
 
 ## Questions
 
